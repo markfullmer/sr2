@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class NPC : CharacterBase {
 
+	public Dialogue dialogue;
+
     void Start() {
         // Try to move once every 0-3 seconds.
         InvokeRepeating("handleMove", 0, 3);
     }
+
+	public void TriggerDialogue ()
+	{
+		FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+	}
 
     public void interact(string character) {
         if (character == "Cebak") {
@@ -16,6 +23,7 @@ public class NPC : CharacterBase {
         else {
             Debug.Log("Other NPC here!!!!");
         }
+        TriggerDialogue();
     }
 
     void handleMove() {

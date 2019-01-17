@@ -14,7 +14,6 @@ public class Player : CharacterBase {
     private Vector2 pos; // position
     private float moveTime = 0.1f; // Speed
     private BoundsInt area;
-    public InfoPanel panel;
     public bool onExit = false;
     public GameObject interactor;
 
@@ -25,7 +24,7 @@ public class Player : CharacterBase {
     {
         if (Input.anyKey) {
             Vector2 startCell = transform.position;
-            if (Input.GetKeyDown("enter")) {
+            if (Input.GetKeyDown("enter") || Input.GetKeyDown("return")) {
                 //uiActive = true;
                 handleInteract(startCell);
             }

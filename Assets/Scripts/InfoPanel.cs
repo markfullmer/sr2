@@ -5,22 +5,25 @@ using UnityEngine.UI;
 
 public class InfoPanel : MonoBehaviour
 {
-    private int state = 1;
+    public bool uiActive = true;
+    private bool start = true;
     private InfoPanel panel;
     public Text text;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        panel = GetComponent<InfoPanel>();
+        animator.SetBool("uiActive", true);
         text.text = "\n\nDocking Privileges at Hiathra Granted.\n\n WARNING! Due to an outbreak of Manchi Flu, this station is under quarantine. NO DOCKED SHIPS ARE PERMITTED TO LEAVE.";
     }
 
     // Update is called once per frame
     void Update() {
-        if (state == 1 && Input.anyKey) {
-            panel.gameObject.SetActive (false);      
-            state = 2;
+        if (start && Input.anyKey) {
+            text.text = "";  
+            start = false;
+            animator.SetBool("uiActive", false);
         }                              
     }
 }

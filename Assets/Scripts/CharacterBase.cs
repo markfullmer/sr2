@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class CharacterBase : MonoBehaviour
 {
 
     public Tilemap obstaclesTilemap;
     public Tilemap interactivesTilemap;
+    public InfoPanel panel;
+    public Text text;
 
     protected bool canMoveTo(Vector2 targetCell) {
         if (positionHasPlayer(targetCell)) {
