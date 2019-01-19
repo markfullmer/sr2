@@ -15,7 +15,7 @@ public class InfoPanel : MonoBehaviour
     void Start()
     {
         animator.SetBool("uiActive", true);
-        text.text = "\n\nDocking Privileges at Hiathra Granted.\n\n WARNING! Due to an outbreak of Manchi Flu, this station is under quarantine. NO DOCKED SHIPS ARE PERMITTED TO LEAVE.";
+        text.text = "\n\nDocking Privileges at Hiathra Granted.\n\nWARNING! Due to an outbreak of Manchi Flu, this station is under quarantine.\n\nNO DOCKED SHIPS ARE PERMITTED TO LEAVE.";
     }
 
     // Update is called once per frame

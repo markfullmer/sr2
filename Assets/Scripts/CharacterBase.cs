@@ -9,6 +9,7 @@ public class CharacterBase : MonoBehaviour
 
     public Tilemap obstaclesTilemap;
     public Tilemap interactivesTilemap;
+    public Tilemap floorTilemap;
     public InfoPanel panel;
     public Text text;
 
@@ -25,6 +26,9 @@ public class CharacterBase : MonoBehaviour
         if (getCell(obstaclesTilemap, targetCell) != null) {
             return false;
         }
+        //if (getCell(floorTilemap, targetCell) != null) {
+        //    return true;
+        //}
         return true;
     }
 
