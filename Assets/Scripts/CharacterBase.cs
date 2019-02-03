@@ -4,32 +4,37 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class CharacterBase : MonoBehaviour
-{
+public class CharacterBase : MonoBehaviour {
 
-    public Tilemap obstaclesTilemap;
-    public Tilemap interactivesTilemap;
-    public Tilemap floorTilemap;
-    public InfoPanel panel;
-    public Text text;
+    protected Tilemap collideable;
+    protected Tilemap floor;
+    protected GameObject gui;
+    protected Animator animator;
+
+    protected void Start() {
+        floor = GameObject.Find("Floor").GetComponent<Tilemap>();
+        collideable = GameObject.Find("Collideable").GetComponent<Tilemap>();
+        gui = GameObject.Find("GUI");
+        animator = gui.GetComponentsInChildren<Animator>()[0];
+    }
 
     protected bool canMoveTo(Vector2 targetCell) {
+        if (animator.GetBool("uiActive")) {
+            return false;
+        }
         if (positionHasPlayer(targetCell)) {
             return false;
         }
         if (positionHasNPC(targetCell)) {
             return false;
         }
-        if (getCell(interactivesTilemap, targetCell) != null) {
+        if (getCell(collideable, targetCell) != null) {
             return false;
         }
-        if (getCell(obstaclesTilemap, targetCell) != null) {
-            return false;
+        if (getCell(floor, targetCell) != null) {
+            return true;
         }
-        //if (getCell(floorTilemap, targetCell) != null) {
-        //    return true;
-        //}
-        return true;
+        return false;
     }
 
     protected bool positionHasPlayer(Vector3 targetCell) {

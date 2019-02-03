@@ -7,25 +7,31 @@ using TMPro;
 
 public class Player : CharacterBase {
 
-    public float speed;             //Floating point variable to store the player's movement speed.
+    public float speed;
     public int keyCount = 0; 
     private bool isMoving = false;
-    private bool uiActive = false;
     private Vector2 pos; // position
     private float moveTime = 0.1f; // Speed
-    private BoundsInt area;
-    public bool onExit = false;
-    public GameObject interactor;
+    private GameObject interactor;
 
-    void Start() {}
+    new void Start() {
+        base.Start(); // Load tilemaps, etc.
+
+        // Reposition if coming from the turbolift in any scene.
+        if (GameControl.control.fromTurbolift == true) {
+            GameControl.control.fromTurbolift = false;
+            GameObject turbolift = GameObject.Find("Turbolift");
+            Vector3 newPosition = new Vector3(turbolift.transform.position.x, turbolift.transform.position.y - 1.0f, turbolift.transform.position.z);
+            transform.position = newPosition;
+        }
+    }
 
     // FixedUpdate is called at a fixed interval and is independent of frame rate.
     void FixedUpdate()
     {
-        if (Input.anyKey) {
+        if (!animator.GetBool("uiActive") && Input.anyKey) {
             Vector2 startCell = transform.position;
             if (Input.GetKeyDown("enter") || Input.GetKeyDown("return")) {
-                //uiActive = true;
                 handleInteract(startCell);
             }
             else {
@@ -42,28 +48,18 @@ public class Player : CharacterBase {
 
         // Will use the first NPC it finds.
         if (interactor = npcInRange(startCell)) {
-            Debug.Log(interactor.name);
-            interactor.GetComponent<NPC>().interact(interactor.name);
-        }
-
-        // @todo handle interactive Tiles.
-/*         int x = (int) startCell.x;
-        int y = (int) startCell.y;
-        area = new BoundsInt(new Vector3Int(x, y, 1), size: new Vector3Int(3, 3, 5));
-        //Tilemap tilemap = GetComponent<Tilemap>();
-        TileBase[] tileArray = interactivesTilemap.GetTilesBlock(area);
-        for (int index = 0; index < tileArray.Length; index++)
-        {
-            if (tileArray[index] != null) {
-                print(tileArray[index]);
-
+            if (interactor.name == "Turbolift") {
+                interactor.GetComponent<Turbolift>().interact();  
             }
-        } */
+            if (interactor.name == "Orellian") {
+                interactor.GetComponent<Orellian>().interact();  
+            }
+        }
     }
 
     private void handleMove(Vector2 startCell) {
         // We do nothing if the player is still moving, or the UI is active.
-        if (isMoving || onExit || uiActive) return;
+        if (isMoving) return;
         // Store the current horizontal input in the float moveHorizontal.
         int horizontal = (int) Input.GetAxisRaw ("Horizontal");
         // Store the current vertical input in the float moveVertical.

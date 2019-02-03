@@ -14,7 +14,7 @@ TrueTypeFontImporter:
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 3
-  ascentCalculationMode: 1
+  ascentCalculationMode: 0
   useLegacyBoundsCalculation: 0
   shouldRoundAdvanceValue: 0
   userData: 

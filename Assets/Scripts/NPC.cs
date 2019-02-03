@@ -4,26 +4,14 @@ using UnityEngine;
 
 public class NPC : CharacterBase {
 
-	public Dialogue dialogue;
+    public bool moveable;
 
-    void Start() {
-        // Try to move once every 0-3 seconds.
-        InvokeRepeating("handleMove", 0, 3);
-    }
-
-	public void TriggerDialogue ()
-	{
-		FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
-	}
-
-    public void interact(string character) {
-        if (character == "Cebak") {
-            Debug.Log("Found Cebak!!");
+    new void Start() {
+        base.Start(); // Load tilemaps, etc.
+        if (moveable) {
+            // Try to move once every 0-2 seconds.
+            InvokeRepeating("handleMove", 0, 2);
         }
-        else {
-            Debug.Log("Other NPC here!!!!");
-        }
-        TriggerDialogue();
     }
 
     void handleMove() {
