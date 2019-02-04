@@ -5,6 +5,7 @@ using UnityEngine;
 public class NPC : CharacterBase {
 
     public bool moveable;
+    protected bool isInteracting;
 
     new void Start() {
         base.Start(); // Load tilemaps, etc.
@@ -24,6 +25,14 @@ public class NPC : CharacterBase {
                 StartCoroutine(doMove(targetCell));
             }
         }
+    }
+
+    protected IEnumerator actionWarmUp(float cooldown) {
+        while ( cooldown > 0f ) {
+            cooldown -= Time.deltaTime;
+            yield return null;
+        }
+        isInteracting = true;
     }
 
 }

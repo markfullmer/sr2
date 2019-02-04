@@ -26,12 +26,13 @@ public class Player : CharacterBase {
         }
     }
 
-    // FixedUpdate is called at a fixed interval and is independent of frame rate.
-    void FixedUpdate()
-    {
-        if (!animator.GetBool("uiActive") && Input.anyKey) {
+    void OnGUI() {
+        Event e = Event.current;
+        if (!animator.GetBool("uiActive") && e.isKey) {
             Vector2 startCell = transform.position;
-            if (Input.GetKeyDown("enter") || Input.GetKeyDown("return")) {
+            if (Event.current.Equals(Event.KeyboardEvent("return")) ||
+            Event.current.Equals(Event.KeyboardEvent("[enter]"))
+            ) {
                 handleInteract(startCell);
             }
             else {
@@ -53,6 +54,9 @@ public class Player : CharacterBase {
             }
             if (interactor.name == "Orellian") {
                 interactor.GetComponent<Orellian>().interact();  
+            }
+            if (interactor.name == "Guard1") {
+                interactor.GetComponent<Guard>().interact();  
             }
         }
     }

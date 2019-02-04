@@ -13,14 +13,10 @@ public class DialogueManager : MonoBehaviour {
     public Animator animator;
 	private InputField input;
 
-	public void InitiateUI() {
-		animator.SetBool("uiActive", true);
-	}
-
 	public void PromptInput(string text) {
 		EventSystem.current.SetSelectedGameObject(null);
 		dialogueText.text = text;
-		StartCoroutine(actionWarmUpPrompt(0.3f));
+		StartCoroutine(actionWarmUpPrompt(0.5f));
         input = GameObject.Find("Textfield").GetComponent<InputField>();
 		input.text = "";
 	}
@@ -46,6 +42,7 @@ public class DialogueManager : MonoBehaviour {
             cooldown -= Time.deltaTime;
             yield return null;
         }
+		animator.SetBool("uiActive", true);
     }
 
     private IEnumerator actionWarmUpPrompt(float cooldown) {
@@ -53,6 +50,7 @@ public class DialogueManager : MonoBehaviour {
             cooldown -= Time.deltaTime;
             yield return null;
         }
+		animator.SetBool("uiActive", true);
 		EventSystem.current.SetSelectedGameObject(GameObject.Find("Textfield"));
     }
 

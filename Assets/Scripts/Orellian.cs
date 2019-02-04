@@ -6,14 +6,12 @@ using UnityEngine.EventSystems;
 
 public class Orellian : NPC {
 
-	private bool isInteracting;
 	private GameObject selected;
 
     public void interact() {
 		selected = GameObject.Find("Button2");
 		EventSystem.current.SetSelectedGameObject(selected);
         isInteracting = true;
-        FindObjectOfType<DialogueManager>().InitiateUI();
         FindObjectOfType<DialogueManager>().StartDialogue("", "", "");
         triggerResponse("0");
 	}

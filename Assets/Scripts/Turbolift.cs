@@ -14,7 +14,6 @@ public class Turbolift : NPC {
         levelRequested = "";
         input = GameObject.Find("Textfield").GetComponent<InputField>();
         input.onEndEdit.AddListener(evaluateText);
-        FindObjectOfType<DialogueManager>().InitiateUI();
         FindObjectOfType<DialogueManager>().PromptInput("Turbolift A\n\n-----------\n\n[3] Observation Deck\n[2] Administrative\n[1] Main Level\n[B1] Customs\n[B2] Engineering");
 	}
 

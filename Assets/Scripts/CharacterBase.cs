@@ -74,12 +74,17 @@ public class CharacterBase : MonoBehaviour {
     protected GameObject npcInRange(Vector2 currentCell) {
         GameObject[] characters;
         characters = GameObject.FindGameObjectsWithTag("NPC");
+        GameObject interactor = null;
+        float currentPlayerDistance = 2;
         foreach (GameObject character in characters) {
-            if (Vector2.Distance(currentCell, character.transform.position) <= 2) {
-                return character;
+            float playerDistance = Vector2.Distance(currentCell, character.transform.position);
+            if (playerDistance <= 1.5 && playerDistance < currentPlayerDistance) {
+                // If a closer player is found, set that player to the interactor.
+                currentPlayerDistance = playerDistance;
+                interactor = character;
             }
         }
-        return null;
+        return interactor;
     }
 
     protected TileBase getCell(Tilemap tilemap, Vector2 cellWorldPos) {
