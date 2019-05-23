@@ -54,7 +54,7 @@ public class Player : CharacterBase {
                 if (Event.current.Equals(Event.KeyboardEvent("return")) || Event.current.Equals(Event.KeyboardEvent("[enter]"))) {
                     if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
                         Vector2 startCell = transform.position;
-                        handleInteract(startCell);
+                        handleNPC(startCell);
 				    }
                     else if (EventSystem.current.currentSelectedGameObject.name == "Inspect") {
                         Vector2 startCell = transform.position;
@@ -72,7 +72,7 @@ public class Player : CharacterBase {
     }
 
     // Check for interactives & respond.
-    private void handleInteract(Vector3 startCell) {
+    private void handleNPC(Vector3 startCell) {
         // Will use the first NPC it finds.
         if (interactor = npcInRange(startCell)) {
             GameControl.control.playerInteracting = true;
@@ -88,9 +88,25 @@ public class Player : CharacterBase {
             else if (interactor.name == "Barkeep") {
                 interactor.GetComponent<Barkeep>().interact();  
             }
+            else if (interactor.name == "Monty") {
+                interactor.GetComponent<Monty>().interact();  
+            }
         }
         else {
             FindObjectOfType<DialogueManager>().SetDialogue("No one here.");
+        }
+    }
+
+    private void handleInteract(Vector3 startCell) {
+        // Will use the first NPC it finds.
+        if (interactor = interactiveInRange(startCell)) {
+            GameControl.control.playerInteracting = true;
+            if (interactor.name == "DoNotPress") {
+                interactor.GetComponent<DoNotPress>().interact();  
+            }
+        }
+        else {
+            FindObjectOfType<DialogueManager>().SetDialogue("Nothing here.");
         }
     }
 
@@ -107,7 +123,10 @@ public class Player : CharacterBase {
             if (canMoveTo(targetCell)) {
                 StartCoroutine(Movement(targetCell));
                 handleDoors(startCell, targetCell);
-                handleSound(targetCell);
+                if (GameControl.control.muted != true) {
+                    handleSound(targetCell);
+                }
+
             }
         }
     }

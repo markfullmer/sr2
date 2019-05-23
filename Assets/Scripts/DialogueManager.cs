@@ -100,7 +100,7 @@ public class DialogueManager : MonoBehaviour {
 		StartCoroutine(actionWarmUpPrompt(0.5f));
 	}
 
-	public void SetControlPanel (string b1, string b2, string b3, string b4)
+	public void SetControlPanel (string b1 = null, string b2 = null, string b3 = null, string b4 = null)
 	{
 		buttonText1.text = b1;
 		buttonText2.text = b2;
@@ -108,7 +108,7 @@ public class DialogueManager : MonoBehaviour {
 		buttonText4.text = b4;
 	}
 
-	public void SetReplies (string b1, string b2)
+	public void SetReplies (string b1 = null, string b2 = null)
 	{
 		StartCoroutine(actionWarmUp(0.3f));
 		replytext1.text = b1;

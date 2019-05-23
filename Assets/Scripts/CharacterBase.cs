@@ -120,6 +120,19 @@ public class CharacterBase : MonoBehaviour {
         return interactor;
     }
 
+    protected GameObject interactiveInRange(Vector2 currentCell) {
+        GameObject[] interactives = GameObject.FindGameObjectsWithTag("Interactive");
+        GameObject interactor = null;
+        foreach (GameObject interactive in interactives) {
+            float distance = Vector2.Distance(currentCell, interactive.transform.position);
+            if (distance <= 1) {
+                interactor = interactive;
+                break;
+            }
+        }
+        return interactor;
+    }
+
     protected TileBase getCell(Tilemap tilemap, Vector2 cellWorldPos) {
         return tilemap.GetTile(tilemap.WorldToCell(cellWorldPos));
     }

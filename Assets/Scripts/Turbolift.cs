@@ -40,7 +40,7 @@ public class Turbolift : NPC {
         }
         else if (text == "2") {
             levelRequested = "administrative";
-            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nAccess to Administrative level requires clearance.\n\nPlease enter access code.");
+            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nAdministrative level requires clearance.\n\nEnter access code.");
             FindObjectOfType<DialogueManager>().PromptInput();
         }
         else if (text == "1") {
@@ -54,11 +54,10 @@ public class Turbolift : NPC {
         }
         else if (text == "B2" || text == "b2") {
             levelRequested = "engineering";
-            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nAccess to Engineering requires clearance.\n\nPlease enter access code.");
+            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nEngineering level requires clearance.\n\nEnter access code.");
             FindObjectOfType<DialogueManager>().PromptInput();          
         }
         else if (text == "3264") {
-            Debug.Log("text = 3264");
             GameControl.control.fromTurbolift = true;
             if (levelRequested == "engineering") {
                 StartCoroutine(leaveTurbolift("Hiathra_engineering"));

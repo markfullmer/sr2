@@ -15,7 +15,6 @@ public class Barkeep : NPC {
     void OnGUI() {
         Event e = Event.current;
         if (isInteracting && e.isKey) {
-            Debug.Log("is interacting & key pressed");
             Debug.Log(EventSystem.current.currentSelectedGameObject);
             if (Event.current.Equals(Event.KeyboardEvent("return")) || Event.current.Equals(Event.KeyboardEvent("[enter]"))) {
                 if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
@@ -48,11 +47,11 @@ public class Barkeep : NPC {
         else {
             int choice = Random.Range(0, 5);
             List<string> iList = new List<string>();
-            iList.Add("Business just ain't what it used to be, what with these buggers everywhere. Buggers don't drink... Buggers don't gamble... Heck, they ain't even interested in hearing the latest news from deep space.");
-            iList.Add("Suppose you already heard about Avenstar? 4,340 InterGal seats lost this election. Meaning, she gotta step down. Parliament may even leave Deneb entirely. After 30-odd years, it's about time if you ask me.");
-            iList.Add("Sorry about the smell. It's this damn bugger flu. Station doctor ordered daily sani-sweeps.");
-            iList.Add("Know what I heard in here the other day? A Sishaz eyeing a bugger. Told me they thought the bugger had a nice looking thorax. Disgusting.");
-            iList.Add("If you're a Guild runner, worst luck, eh? Customs has proscribed sale of just about anything organic. It hasn't helped the miners, either, because now everyone's selling mineral dirt cheap.");
+            iList.Add("Business just ain't what it usedta, what with these buggers everywhere. Buggers don't drink. Buggers don't gamble. For krysaa, they ain't even interested in anagathics.");
+            iList.Add("Suppose you heard about Avenstar? 4,340 InterGal seats lost this election. Meaning, she gotta step down. Parliament may leave Deneb System entirely.\n\nAfter 30-odd years, it's about time, says I.");
+            iList.Add("Sorry about the smell. It's cause this damn bugger flu. Station doctor ordered daily sani-sweeps.");
+            iList.Add("Know what I saw the other day? A Sishaz eyeing a bugger. Told me the bugger had a shapely thorax.\n\nDisgusting.");
+            iList.Add("If you're a Guild runner, worst luck, eh? Customs proscribed sale of just about anything organic.\n\nIt hasn't helped the miners, neither, cause merchers are selling the mineral dirt cheap.");
             return iList[choice] + "\n\nAnother one?";
         }
     }
