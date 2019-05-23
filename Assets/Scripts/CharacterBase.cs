@@ -7,19 +7,23 @@ using UnityEngine.UI;
 public class CharacterBase : MonoBehaviour {
 
     protected Tilemap collideable;
+    protected Tilemap exteriorFloor;
     protected Tilemap floor;
     protected GameObject gui;
     protected Animator animator;
+    protected bool isInteracting;
 
     protected void Start() {
         floor = GameObject.Find("Floor").GetComponent<Tilemap>();
+        if (GameObject.Find("ExteriorFloor") != null) {
+            exteriorFloor = GameObject.Find("ExteriorFloor").GetComponent<Tilemap>();
+        }
         collideable = GameObject.Find("Collideable").GetComponent<Tilemap>();
         gui = GameObject.Find("GUI");
-        animator = gui.GetComponentsInChildren<Animator>()[0];
     }
 
     protected bool canMoveTo(Vector2 targetCell) {
-        if (animator.GetBool("uiActive")) {
+        if (isInteracting) {
             return false;
         }
         if (positionHasPlayer(targetCell)) {
@@ -28,10 +32,25 @@ public class CharacterBase : MonoBehaviour {
         if (positionHasNPC(targetCell)) {
             return false;
         }
+        if (positionHasLockedDoor(targetCell)) {
+            return false;
+        }
         if (getCell(collideable, targetCell) != null) {
             return false;
         }
         if (getCell(floor, targetCell) != null) {
+            return true;
+        }
+        if (exteriorFloor != null) {
+            if (getCell(exteriorFloor, targetCell) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected bool positionIsExterior(Vector3 targetCell) {
+        if (exteriorFloor != null && getCell(exteriorFloor, targetCell) != null) {
             return true;
         }
         return false;
@@ -59,6 +78,20 @@ public class CharacterBase : MonoBehaviour {
         return false;
     }
 
+    protected bool positionHasLockedDoor(Vector3 targetCell) {
+        GameObject[] doors;
+        doors = GameObject.FindGameObjectsWithTag("Door");
+        foreach (GameObject door in doors) {
+            if (Vector2.Distance(targetCell, door.transform.position) <= 0.5) {
+                Door controlscript = door.GetComponent<Door>();
+                if (controlscript.locked == true) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     protected IEnumerator doMove(Vector3 end) {
         float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
@@ -78,7 +111,7 @@ public class CharacterBase : MonoBehaviour {
         float currentPlayerDistance = 2;
         foreach (GameObject character in characters) {
             float playerDistance = Vector2.Distance(currentCell, character.transform.position);
-            if (playerDistance <= 1.5 && playerDistance < currentPlayerDistance) {
+            if (playerDistance <= 2 && playerDistance <= currentPlayerDistance) {
                 // If a closer player is found, set that player to the interactor.
                 currentPlayerDistance = playerDistance;
                 interactor = character;

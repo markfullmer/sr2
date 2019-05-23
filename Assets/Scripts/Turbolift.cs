@@ -9,62 +9,85 @@ public class Turbolift : NPC {
 
 	private string levelRequested;
     private InputField input;
+    AudioSource audioData;
 
     public void interact() {
         levelRequested = "";
+        FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\n[3] Observation Deck\n[2] Administrative\n[1] Main Level\n[B1] Customs/Cargo/Checkpoint\n[B2] Engineering");
+        FindObjectOfType<DialogueManager>().closeControlPanel();
+        FindObjectOfType<DialogueManager>().DisableReplies();
+        FindObjectOfType<DialogueManager>().PromptInput();
+        StartCoroutine(promptWarmUp(0.6f));
+	}
+
+    private IEnumerator promptWarmUp(float cooldown) {
+        while ( cooldown > 0f ) {
+            cooldown -= Time.deltaTime;
+            yield return null;
+        }
         input = GameObject.Find("Textfield").GetComponent<InputField>();
         input.onEndEdit.AddListener(evaluateText);
-        FindObjectOfType<DialogueManager>().PromptInput("Turbolift A\n\n-----------\n\n[3] Observation Deck\n[2] Administrative\n[1] Main Level\n[B1] Customs\n[B2] Engineering");
-	}
+    }
 
     private void evaluateText(string text) {
         if (levelRequested != "" && text != "3264") {
-            FindObjectOfType<DialogueManager>().PromptInput("Turbolift A\n\n-----------\n\nInvalid or expired access code.\n\nHave a better one.");
+            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nInvalid or expired access code.\n\nHave a better one.");
             StartCoroutine(leaveTurbolift());      
         }
         else if (text == "3") {
             GameControl.control.fromTurbolift = true;
-            SceneManager.LoadScene("Hiathra_observation_deck");
-            StartCoroutine(leaveTurbolift());
+            StartCoroutine(leaveTurbolift("Hiathra_observation_deck"));
         }
         else if (text == "2") {
             levelRequested = "administrative";
-            FindObjectOfType<DialogueManager>().PromptInput("Turbolift A\n\n-----------\n\nAccess to Administrative level requires clearance.\n\nPlease enter access code.");
+            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nAccess to Administrative level requires clearance.\n\nPlease enter access code.");
+            FindObjectOfType<DialogueManager>().PromptInput();
         }
         else if (text == "1") {
             GameControl.control.fromTurbolift = true;
-            SceneManager.LoadScene("Hiathra_main_floor");
-            StartCoroutine(leaveTurbolift());           
+            StartCoroutine(leaveTurbolift("Hiathra_main_floor"));           
         }
         else if (text == "B1" || text == "b1") {
+            GameControl.control.fromTurbolift = true;
             levelRequested = "customs";
-            FindObjectOfType<DialogueManager>().PromptInput("Turbolift A\n\n-----------\n\nAccess to Customs requires clearance.\n\nPlease enter access code.");            
+            StartCoroutine(leaveTurbolift("Hiathra_customs"));    
         }
         else if (text == "B2" || text == "b2") {
             levelRequested = "engineering";
-            FindObjectOfType<DialogueManager>().PromptInput("Turbolift A\n\n-----------\n\nAccess to Engineering requires clearance.\n\nPlease enter access code.");            
+            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nAccess to Engineering requires clearance.\n\nPlease enter access code.");
+            FindObjectOfType<DialogueManager>().PromptInput();          
         }
         else if (text == "3264") {
-            // @todo
+            Debug.Log("text = 3264");
+            GameControl.control.fromTurbolift = true;
             if (levelRequested == "engineering") {
-                FindObjectOfType<DialogueManager>().EndDialogue();
+                StartCoroutine(leaveTurbolift("Hiathra_engineering"));
             }
-            else {
-                FindObjectOfType<DialogueManager>().EndDialogue();
-            }
+            else if (levelRequested == "administrative") {
+                StartCoroutine(leaveTurbolift("Hiathra_administrative"));
+            }   
         }
         else {
-            FindObjectOfType<DialogueManager>().PromptInput("Turbolift A\n\n-----------\n\nInvalid input.\n\nHave a better one.");
+            FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nInvalid input.\n\nHave a better one.");
             StartCoroutine(leaveTurbolift());
         }
     }
 
-    private IEnumerator leaveTurbolift() {
+    private IEnumerator leaveTurbolift(string scene = null) {
+        GameControl.control.playerInteracting = false;
         input.onEndEdit.RemoveListener(evaluateText);
         float cooldown = 1;
+        if (scene != null) {
+            cooldown = 3;
+            audioData = GetComponent<AudioSource>();
+            audioData.Play(0);
+        }
         while ( cooldown > 0f ) {
             cooldown -= Time.deltaTime;
             yield return null;
+        }
+        if (scene != null) {
+            SceneManager.LoadScene(scene);
         }
 		FindObjectOfType<DialogueManager>().EndDialogue();
     }

@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hiathra_observation_deck.unity
     guid: 6d1ca1469cdfac947b441cfcc3e9c21c
+  - enabled: 1
+    path: Assets/Scenes/Hiathra_engineering.unity
+    guid: 4f3ac13302bc521439c40aff99813fee
+  - enabled: 1
+    path: Assets/Scenes/Hiathra_administrative.unity
+    guid: 8372a10bb136f2b4eb33f591e11a8ce3
+  - enabled: 1
+    path: Assets/Scenes/Hiathra_customs.unity
+    guid: 301dcb9f132e5214e9a642ffad04bb86
   m_configObjects: {}

@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-     public void OnPointerEnter(PointerEventData eventData) {
+    public void OnPointerEnter(PointerEventData eventData) {
         gameObject.GetComponent<Text>().color = Color.red;
-     }
+    }
  
-     public void OnPointerExit(PointerEventData eventData) {
+    public void OnPointerExit(PointerEventData eventData) {
         gameObject.GetComponent<Text>().color = Color.red;
-     }
+    }
+
 }

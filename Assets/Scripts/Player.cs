@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;	
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class Player : CharacterBase {
 
@@ -13,10 +14,21 @@ public class Player : CharacterBase {
     private Vector2 pos; // position
     private float moveTime = 0.1f; // Speed
     private GameObject interactor;
+    private GameObject[] doors;
+    private AudioSource exteriorAmbience;
+    private AudioSource interiorAmbience;
 
     new void Start() {
         base.Start(); // Load tilemaps, etc.
-
+        GameObject a = GameObject.Find("ExteriorAmbience");
+        if (a != null) {
+            exteriorAmbience = a.GetComponent<AudioSource>();
+        }
+        GameObject b = GameObject.Find("InteriorAmbience");
+        if (b != null) {
+            interiorAmbience = b.GetComponent<AudioSource>();
+        }
+        
         // Reposition if coming from the turbolift in any scene.
         if (GameControl.control.fromTurbolift == true) {
             GameControl.control.fromTurbolift = false;
@@ -27,37 +39,58 @@ public class Player : CharacterBase {
     }
 
     void OnGUI() {
-        Event e = Event.current;
-        if (!animator.GetBool("uiActive") && e.isKey) {
-            Vector2 startCell = transform.position;
-            if (Event.current.Equals(Event.KeyboardEvent("return")) ||
-            Event.current.Equals(Event.KeyboardEvent("[enter]"))
-            ) {
-                handleInteract(startCell);
+        Event e = Event.current;     
+        if (e.isKey && !GameControl.control.playerInteracting) {
+            if (!GameControl.control.isControlPanel) {
+                if (Event.current.Equals(Event.KeyboardEvent("return")) || Event.current.Equals(Event.KeyboardEvent("[enter]"))) {
+                    FindObjectOfType<DialogueManager>().openControlPanel();
+                }
+                else {
+                    Vector2 startCell = transform.position;
+                    handleMove(startCell);
+                }
             }
-            else {
-                handleMove(startCell);
+            else if (GameControl.control.isControlPanel) {
+                if (Event.current.Equals(Event.KeyboardEvent("return")) || Event.current.Equals(Event.KeyboardEvent("[enter]"))) {
+                    if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
+                        Vector2 startCell = transform.position;
+                        handleInteract(startCell);
+				    }
+                    else if (EventSystem.current.currentSelectedGameObject.name == "Inspect") {
+                        Vector2 startCell = transform.position;
+                        handleInteract(startCell);
+				    }
+                    else if (EventSystem.current.currentSelectedGameObject.name == "Status") {
+
+				    }
+                    else {
+                        FindObjectOfType<DialogueManager>().exit();
+                    }
+                }
             }
         }
     }
 
     // Check for interactives & respond.
     private void handleInteract(Vector3 startCell) {
-        // @todo set ControlPanel active...
-        //panel.gameObject.SetActive(true);
-        //panel.gameObject.SetActive (true);
-
         // Will use the first NPC it finds.
         if (interactor = npcInRange(startCell)) {
+            GameControl.control.playerInteracting = true;
             if (interactor.name == "Turbolift") {
                 interactor.GetComponent<Turbolift>().interact();  
             }
-            if (interactor.name == "Orellian") {
+            else if (interactor.name == "Orellian") {
                 interactor.GetComponent<Orellian>().interact();  
             }
-            if (interactor.name == "Guard1") {
+            else if (interactor.name == "Guard1") {
                 interactor.GetComponent<Guard>().interact();  
             }
+            else if (interactor.name == "Barkeep") {
+                interactor.GetComponent<Barkeep>().interact();  
+            }
+        }
+        else {
+            FindObjectOfType<DialogueManager>().SetDialogue("No one here.");
         }
     }
 
@@ -73,10 +106,60 @@ public class Player : CharacterBase {
             Vector2 targetCell = startCell + new Vector2(horizontal, vertical);
             if (canMoveTo(targetCell)) {
                 StartCoroutine(Movement(targetCell));
+                handleDoors(startCell, targetCell);
+                handleSound(targetCell);
             }
         }
     }
 
+    private void handleSound(Vector2 targetCell) {
+        if (positionIsExterior(targetCell)) {
+            if (exteriorAmbience != null) {
+                exteriorAmbience.mute = false;
+            } 
+            if (interiorAmbience != null) {
+                interiorAmbience.mute = true;
+            }
+        }
+        else {
+            if (exteriorAmbience != null) {
+                exteriorAmbience.mute = true;
+            }
+            if (interiorAmbience != null) {
+                interiorAmbience.mute = false;
+            }
+        }
+    }
+
+    private void handleDoors(Vector2 startcell, Vector2 targetCell) {
+        GameObject[] doors;
+        doors = GameObject.FindGameObjectsWithTag("Door");
+        foreach (GameObject door in doors) {
+            var doorData = door.GetComponent<Door>();
+            if (Vector2.Distance(targetCell, doorData.closed) <= 0.2) {
+                StartCoroutine(MoveDoor(door, doorData.open));
+                break;
+            }
+            else if (Vector2.Distance(startcell, doorData.closed) <= 0.5) {
+                StartCoroutine(MoveDoor(door, doorData.closed));
+                break;
+            }
+        }
+    }
+
+    private IEnumerator MoveDoor(GameObject door, Vector3 to) {
+
+        float sqrRemainingDistance = (door.transform.position - to).sqrMagnitude;
+        float inverseMoveTime = 1 / 0.15f;
+        while (sqrRemainingDistance > float.Epsilon)
+        {
+            Vector3 newPosition = Vector3.MoveTowards(door.transform.position, to, inverseMoveTime * Time.deltaTime);
+            door.transform.position = newPosition;
+            sqrRemainingDistance = (door.transform.position - to).sqrMagnitude;
+
+            yield return null;
+        }
+    }
 
     private IEnumerator Movement(Vector3 end) {
 

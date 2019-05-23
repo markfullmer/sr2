@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Info Screen
   - NPC
+  - Door
   layers:
   - Default
   - TransparentFX
