@@ -22,6 +22,15 @@ public class CharacterBase : MonoBehaviour {
         gui = GameObject.Find("GUI");
     }
 
+    protected bool npcCanMoveTo(Vector2 targetCell) {
+        if (positionHasDoor(targetCell)) {
+            return false;
+        }
+        else {
+            return canMoveTo(targetCell);
+        }
+    }
+
     protected bool canMoveTo(Vector2 targetCell) {
         if (isInteracting) {
             return false;
@@ -30,6 +39,9 @@ public class CharacterBase : MonoBehaviour {
             return false;
         }
         if (positionHasNPC(targetCell)) {
+            return false;
+        }
+        if (positionHasInteractive(targetCell)) {
             return false;
         }
         if (positionHasLockedDoor(targetCell)) {
@@ -67,6 +79,28 @@ public class CharacterBase : MonoBehaviour {
         return false;
     }
 
+    protected bool playerInRange(Vector3 targetCell) {
+        GameObject[] players;
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players) {
+            if (Vector2.Distance(targetCell, player.transform.position) <= 3.5) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected bool positionHasInteractive(Vector3 targetCell) {
+        GameObject[] players;
+        players = GameObject.FindGameObjectsWithTag("Interactive");
+        foreach (GameObject player in players) {
+            if (Vector2.Distance(targetCell, player.transform.position) <= 0.5) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected bool positionHasNPC(Vector3 targetCell) {
         GameObject[] players;
         players = GameObject.FindGameObjectsWithTag("NPC");
@@ -87,6 +121,17 @@ public class CharacterBase : MonoBehaviour {
                 if (controlscript.locked == true) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    protected bool positionHasDoor(Vector3 targetCell) {
+        GameObject[] doors;
+        doors = GameObject.FindGameObjectsWithTag("Door");
+        foreach (GameObject door in doors) {
+            if (Vector2.Distance(targetCell, door.transform.position) <= 0.5) {
+                return true;
             }
         }
         return false;
@@ -136,6 +181,7 @@ public class CharacterBase : MonoBehaviour {
     protected TileBase getCell(Tilemap tilemap, Vector2 cellWorldPos) {
         return tilemap.GetTile(tilemap.WorldToCell(cellWorldPos));
     }
+
     protected bool hasTile(Tilemap tilemap, Vector2 cellWorldPos) {
         return tilemap.HasTile(tilemap.WorldToCell(cellWorldPos));
     }

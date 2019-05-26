@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class NPC : CharacterBase {
@@ -20,7 +21,7 @@ public class NPC : CharacterBase {
         int vertical = (int) Random.Range(-1, 2);
         if (horizontal != 0 || vertical != 0) {
             Vector2 targetCell = currentCell + new Vector2(horizontal, vertical);
-            if (canMoveTo(targetCell)) {
+            if (npcCanMoveTo(targetCell)) {
                 StartCoroutine(doMove(targetCell));
             }
         }
@@ -37,6 +38,19 @@ public class NPC : CharacterBase {
             yield return null;
         }
         isInteracting = true;
+    }
+
+    protected IEnumerator actionRestart(float cooldown) {
+        Debug.Log("triggered restart");
+        while ( cooldown > 0f ) {
+            cooldown -= Time.deltaTime;
+            yield return null;
+        }
+        isInteracting = false;
+        GameControl.control.game_state = "origin";
+        GameControl.control.playerInteracting = false;
+        FindObjectOfType<DialogueManager>().exit();
+        SceneManager.LoadScene("Intro");
     }
 
 }

@@ -29,6 +29,11 @@ public class Player : CharacterBase {
             interiorAmbience = b.GetComponent<AudioSource>();
         }
         
+        if (GameControl.control.game_state == "origin") {
+            GameControl.control.playerInteracting = true;
+            FindObjectOfType<DialogueManager>().SetDialogue("Docking privileges at Hiathra granted. We've done a Level 4 check of your cargo for risks of biocontamination.\n\nThe station is observing a general quarantine due to an outbreak of Manchi flu. See the customs office for further information.\n\nWe hope you will have a pleasant visit.");
+            StartCoroutine(actionWarmUp(1f));
+        }
         // Reposition if coming from the turbolift in any scene.
         if (GameControl.control.fromTurbolift == true) {
             GameControl.control.fromTurbolift = false;
@@ -69,6 +74,11 @@ public class Player : CharacterBase {
                 }
             }
         }
+        else if (e.isKey && GameControl.control.game_state == "origin") {
+            GameControl.control.game_state = "initial";
+            GameControl.control.playerInteracting = false;
+            FindObjectOfType<DialogueManager>().exit();
+        }
     }
 
     // Check for interactives & respond.
@@ -76,10 +86,7 @@ public class Player : CharacterBase {
         // Will use the first NPC it finds.
         if (interactor = npcInRange(startCell)) {
             GameControl.control.playerInteracting = true;
-            if (interactor.name == "Turbolift") {
-                interactor.GetComponent<Turbolift>().interact();  
-            }
-            else if (interactor.name == "Orellian") {
+            if (interactor.name == "Orellian") {
                 interactor.GetComponent<Orellian>().interact();  
             }
             else if (interactor.name == "Guard1") {
@@ -91,6 +98,21 @@ public class Player : CharacterBase {
             else if (interactor.name == "Monty") {
                 interactor.GetComponent<Monty>().interact();  
             }
+            else if (interactor.name == "Bookshop") {
+                interactor.GetComponent<Monty>().interact();  
+            }
+            else if (interactor.name == "Immigration") {
+                interactor.GetComponent<Monty>().interact();  
+            }
+            else if (interactor.name == "MaskedFigure") {
+                interactor.GetComponent<Monty>().interact();  
+            }
+            else if (interactor.name == "Customs") {
+                interactor.GetComponent<Passageway>().interact();  
+            }
+            else if (interactor.name == "CargoWorker1") {
+                interactor.GetComponent<ManchiWorker>().interact();
+            }
         }
         else {
             FindObjectOfType<DialogueManager>().SetDialogue("No one here.");
@@ -101,8 +123,20 @@ public class Player : CharacterBase {
         // Will use the first NPC it finds.
         if (interactor = interactiveInRange(startCell)) {
             GameControl.control.playerInteracting = true;
+            if (interactor.name == "Turbolift") {
+                interactor.GetComponent<Turbolift>().interact();  
+            }
             if (interactor.name == "DoNotPress") {
                 interactor.GetComponent<DoNotPress>().interact();  
+            }
+            else if (interactor.name == "Passageway") {
+                interactor.GetComponent<Passageway>().interact();  
+            }
+            else if (interactor.name == "EngineeringComputer1") {
+                interactor.GetComponent<EngineeringComputer>().interact();  
+            }
+            else if (interactor.name == "EngineeringComputer2") {
+                interactor.GetComponent<EngineeringComputer>().interact();  
             }
         }
         else {
@@ -156,28 +190,40 @@ public class Player : CharacterBase {
         foreach (GameObject door in doors) {
             var doorData = door.GetComponent<Door>();
             if (Vector2.Distance(targetCell, doorData.closed) <= 0.2) {
-                StartCoroutine(MoveDoor(door, doorData.open));
-                break;
+                StartCoroutine(OpenDoor(door, doorData));
             }
-            else if (Vector2.Distance(startcell, doorData.closed) <= 0.5) {
-                StartCoroutine(MoveDoor(door, doorData.closed));
-                break;
+            else if (doorData.isOpen == true) {
+                StartCoroutine(CloseDoor(door, doorData));
+                doorData.isOpen = false;
             }
         }
     }
 
-    private IEnumerator MoveDoor(GameObject door, Vector3 to) {
-
-        float sqrRemainingDistance = (door.transform.position - to).sqrMagnitude;
+    private IEnumerator OpenDoor(GameObject door, Door doorData) {
+        float sqrRemainingDistance = (door.transform.position - doorData.open).sqrMagnitude;
         float inverseMoveTime = 1 / 0.15f;
         while (sqrRemainingDistance > float.Epsilon)
         {
-            Vector3 newPosition = Vector3.MoveTowards(door.transform.position, to, inverseMoveTime * Time.deltaTime);
+            Vector3 newPosition = Vector3.MoveTowards(door.transform.position, doorData.open, inverseMoveTime * Time.deltaTime);
             door.transform.position = newPosition;
-            sqrRemainingDistance = (door.transform.position - to).sqrMagnitude;
+            sqrRemainingDistance = (door.transform.position - doorData.open).sqrMagnitude;
+            yield return null;
+        }
+        doorData.isOpen = true;
+    }
+
+    private IEnumerator CloseDoor(GameObject door, Door doorData) {
+        float sqrRemainingDistance = (door.transform.position - doorData.closed).sqrMagnitude;
+        float inverseMoveTime = 1 / 0.15f;
+        while (sqrRemainingDistance > float.Epsilon)
+        {
+            Vector3 newPosition = Vector3.MoveTowards(door.transform.position, doorData.closed, inverseMoveTime * Time.deltaTime);
+            door.transform.position = newPosition;
+            sqrRemainingDistance = (door.transform.position - doorData.closed).sqrMagnitude;
 
             yield return null;
         }
+        
     }
 
     private IEnumerator Movement(Vector3 end) {
@@ -197,6 +243,13 @@ public class Player : CharacterBase {
         }
 
         isMoving = false;
+    }
+
+    protected IEnumerator actionWarmUp(float cooldown) {
+        while ( cooldown > 0f ) {
+            cooldown -= Time.deltaTime;
+            yield return null;
+        }
     }
 
 }

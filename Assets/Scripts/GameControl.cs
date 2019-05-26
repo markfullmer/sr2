@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameControl : MonoBehaviour
 {
     public static GameControl control;
-
+    public string game_state = "origin";
     public float credits;
     public string repute;
     public bool fromTurbolift;

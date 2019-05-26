@@ -70,7 +70,7 @@ public class Monty : NPC {
         else if (state == "2") {
             if (reply == "1") {
                 GameControl.control.monty_state = "3";
-                FindObjectOfType<DialogueManager>().SetDialogue("OH, oh I'm sorry, but this is abuse. You want Room 12A, just along the corridor.");
+                FindObjectOfType<DialogueManager>().SetDialogue("--OH!\n\n Oh, I'm sorry! This is 'Abuse'.\n\nYou want Room 12A, just along the corridor.");
                 FindObjectOfType<DialogueManager>().SetReplies("Leave");
             }
             else {

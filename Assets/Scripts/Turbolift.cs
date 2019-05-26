@@ -59,12 +59,13 @@ public class Turbolift : NPC {
         }
         else if (text == "3264") {
             GameControl.control.fromTurbolift = true;
-            if (levelRequested == "engineering") {
-                StartCoroutine(leaveTurbolift("Hiathra_engineering"));
-            }
-            else if (levelRequested == "administrative") {
+            if (levelRequested == "administrative") {
                 StartCoroutine(leaveTurbolift("Hiathra_administrative"));
-            }   
+            }
+            else {
+                FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nInvalid input.\n\nHave a better one.");
+                StartCoroutine(leaveTurbolift());
+            }
         }
         else {
             FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nInvalid input.\n\nHave a better one.");

@@ -58,7 +58,7 @@ public class Orellian : NPC {
                 FindObjectOfType<DialogueManager>().SetReplies("Tell Orellian a story", "Leave, quickly");                
             }
             if (reply == "1") {
-                FindObjectOfType<DialogueManager>().SetDialogue("You regale the diplomat with a story of your exploits. When you finish, Orellian gleams, shakes your hand.\n\n 'Next time you're at Hiathra, do stop by and say hello. If I'm not in this office, check the Administrative level. Oh...and you'll need the turbolift code 3624.'");
+                FindObjectOfType<DialogueManager>().SetDialogue("You regale the diplomat with a story of your exploits, only half-heartedly trying to conceal your boredom. Or is it some feeling other than boredom...?\n\nWhen you finish, Orellian gleams and shakes your hand, almost violently.\n\n 'Next time you're at Hiathra, do stop by and say hello. If I'm not in this office, check the Administrative level. Oh...and you'll need the turbolift code 3624.'");
                 FindObjectOfType<DialogueManager>().SetReplies("Thank Orellian", "Leave");
                 GameControl.control.orellian_state = "turbolift_access";
                 guard.gameObject.SetActive (false);
