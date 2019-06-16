@@ -16,6 +16,7 @@ public class Passageway : NPC {
         Event e = Event.current;
         if (isInteracting && e.isKey) {
             FindObjectOfType<DialogueManager>().exit();
+            GameControl.control.playerInteracting = false;
             isInteracting = false;
             SceneManager.LoadScene("Hiathra_engineering");
         }

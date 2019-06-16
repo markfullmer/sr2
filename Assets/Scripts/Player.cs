@@ -99,18 +99,18 @@ public class Player : CharacterBase {
                 interactor.GetComponent<Monty>().interact();  
             }
             else if (interactor.name == "Bookshop") {
-                interactor.GetComponent<Monty>().interact();  
+                interactor.GetComponent<Bookshop>().interact();  
             }
             else if (interactor.name == "Immigration") {
-                interactor.GetComponent<Monty>().interact();  
+                interactor.GetComponent<Immigration>().interact();  
             }
             else if (interactor.name == "MaskedFigure") {
-                interactor.GetComponent<Monty>().interact();  
+                interactor.GetComponent<MaskedFigure>().interact();  
             }
-            else if (interactor.name == "Customs") {
-                interactor.GetComponent<Passageway>().interact();  
+            else if (interactor.name == "CargoManager") {
+                interactor.GetComponent<CargoManager>().interact();  
             }
-            else if (interactor.name == "CargoWorker1") {
+            else if (interactor.name.Contains("CargoWorker")) {
                 interactor.GetComponent<ManchiWorker>().interact();
             }
         }

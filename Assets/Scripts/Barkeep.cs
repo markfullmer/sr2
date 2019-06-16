@@ -45,13 +45,14 @@ public class Barkeep : NPC {
             return iList[choice];
         }
         else {
-            int choice = Random.Range(0, 5);
+            int choice = Random.Range(0, 6);
             List<string> iList = new List<string>();
             iList.Add("Business just ain't what it usedta, what with these buggers everywhere. Buggers don't drink. Buggers don't gamble. For krysaa, they ain't even interested in anagathics.");
             iList.Add("Suppose you heard about Avenstar? 4,340 InterGal seats lost this election. Meaning, she gotta step down. Parliament may leave Deneb System entirely.\n\nAfter 30-odd years, it's about time, says I.");
             iList.Add("Sorry about the smell. It's cause this damn bugger flu. Station doctor ordered daily sani-sweeps.");
             iList.Add("Know what I saw the other day? A Sishaz eyeing a bugger. Told me the bugger had a shapely thorax.\n\nDisgusting.");
             iList.Add("If you're a Guild runner, worst luck, eh? Customs proscribed sale of just about anything organic.\n\nIt hasn't helped the miners, neither, cause merchers are selling the mineral dirt cheap.");
+            iList.Add("You know, I've really been enjoying the poems of William Wordsworth lately.\n\n'The things which I have seen I now can see no more...'");
             return iList[choice] + "\n\nAnother one?";
         }
     }

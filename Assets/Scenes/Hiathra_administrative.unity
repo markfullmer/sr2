@@ -222,8 +222,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 400, y: 180}
-  m_SizeDelta: {x: 600, y: 30}
+  m_AnchoredPosition: {x: 480, y: 160}
+  m_SizeDelta: {x: 800, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &18138284
 MonoBehaviour:
@@ -516,8 +516,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -60}
-  m_SizeDelta: {x: 600, y: 30}
+  m_AnchoredPosition: {x: 480, y: -80}
+  m_SizeDelta: {x: 800, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &170276239
 MonoBehaviour:
@@ -3818,7 +3818,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Button1
 --- !u!1 &653695415
@@ -4421,7 +4421,10 @@ MonoBehaviour:
   fromTurbolift: 0
   barkeep_state: 
   orellian_state: 0
+  bookshop_state: 0
+  maskedfigure_state: 0
   monty_state: 0
+  cargomanager_state: 0
   orellian_relationship: 
   playerInteracting: 0
   isControlPanel: 0
@@ -5144,7 +5147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1330252387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb03ccbe533e02b468482d48cf7457c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 152df4111938889498dfc9dabd98c31d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveable: 1
@@ -5591,7 +5594,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1487421097}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb03ccbe533e02b468482d48cf7457c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fa18df23b585654a869908b867051f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveable: 1
@@ -6808,7 +6811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 440, y: 20}
+  m_AnchoredPosition: {x: 440.17, y: 21.78}
   m_SizeDelta: {x: 900, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1971716193
@@ -8998,7 +9001,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2079332324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb03ccbe533e02b468482d48cf7457c5, type: 3}
+  m_Script: {fileID: 11500000, guid: d9fb03ad43fd12c4db01fad18ffe29f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveable: 1

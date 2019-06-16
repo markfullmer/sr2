@@ -41,7 +41,6 @@ public class NPC : CharacterBase {
     }
 
     protected IEnumerator actionRestart(float cooldown) {
-        Debug.Log("triggered restart");
         while ( cooldown > 0f ) {
             cooldown -= Time.deltaTime;
             yield return null;

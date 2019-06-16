@@ -11,7 +11,10 @@ public class GameControl : MonoBehaviour
     public bool fromTurbolift;
     public string barkeep_state;
     public string orellian_state;
-    public string monty_state;
+    public string bookshop_state = "0";
+    public string maskedfigure_state = "0";
+    public string monty_state = "0";
+    public string cargomanager_state = "0";
     public string orellian_relationship;
     public bool playerInteracting;
     public bool isControlPanel;
