@@ -113,6 +113,9 @@ public class Player : CharacterBase {
             else if (interactor.name.Contains("CargoWorker")) {
                 interactor.GetComponent<ManchiWorker>().interact();
             }
+            else if (interactor.name == "ManchiPatron") {
+                interactor.GetComponent<ManchiPatron>().interact();
+            }
         }
         else {
             FindObjectOfType<DialogueManager>().SetDialogue("No one here.");

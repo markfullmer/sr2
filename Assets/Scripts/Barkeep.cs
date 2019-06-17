@@ -18,13 +18,16 @@ public class Barkeep : NPC {
             Debug.Log(EventSystem.current.currentSelectedGameObject);
             if (Event.current.Equals(Event.KeyboardEvent("return")) || Event.current.Equals(Event.KeyboardEvent("[enter]"))) {
                 if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
+                    GameControl.control.credits = GameControl.control.credits - 2;
                     FindObjectOfType<DialogueManager>().SetDialogue("Here you go. Another one buddy?");
 				}
                 else if (EventSystem.current.currentSelectedGameObject.name == "Inspect") {
                     FindObjectOfType<DialogueManager>().SetDialogue("Here you go. That stuff's mostly water. Another one buddy?");
+                    GameControl.control.credits = GameControl.control.credits - 1;
 				}
                 else if (EventSystem.current.currentSelectedGameObject.name == "Status") {
                     FindObjectOfType<DialogueManager>().SetDialogue(getGossip());
+                    GameControl.control.credits = GameControl.control.credits - 5;
 				}
                 else {
                     end();
@@ -36,13 +39,11 @@ public class Barkeep : NPC {
     string getGossip() {
         string state = GameControl.control.barkeep_state;
         
-        if (state == "friends") {
-            int choice = Random.Range(0, 3);
-            List<string> iList = new List<string>();
-            iList.Add("Rumor has it you're working on a way off this station. If you've got room for one more, I'll pay. Anything you ask.");
-            iList.Add("Bit o' advice, friend: don't trust that Robocrook. They tried to wipe his circuits, but he's still got his grifting subroutines, alright.");
-            iList.Add("It's not my business, but I seen you chatting with that bugger. You better not be one of them bug-lovers.");
-            return iList[choice];
+        if (state == "manchi") {
+            return "It's not my business, but I seen you chatting with that bugger. You better not be one of them bug-lovers.";
+        }
+        else if (state == "escape") {
+            return "Rumor has it you're working on a way off this station. If you've got room for one more, I'll pay. Anything you ask.";
         }
         else {
             int choice = Random.Range(0, 6);

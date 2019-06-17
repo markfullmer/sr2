@@ -6,7 +6,7 @@ public class GameControl : MonoBehaviour
 {
     public static GameControl control;
     public string game_state = "origin";
-    public float credits;
+    public float credits = 15102;
     public string repute;
     public bool fromTurbolift;
     public string barkeep_state;

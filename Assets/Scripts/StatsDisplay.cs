@@ -7,6 +7,6 @@ public class StatsDisplay : MonoBehaviour
 {
     // Update is called once per frame
     void Update() {
-        gameObject.GetComponent<Text>().text = "8 MAR 19\nCRs: " + GameControl.control.credits;
+        gameObject.GetComponent<Text>().text = "8 JUL 19\nCRs: " + GameControl.control.credits;
     }
 }
