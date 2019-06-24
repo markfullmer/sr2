@@ -16,7 +16,7 @@ public class Turbolift : NPC {
         FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\n[3] Observation Deck\n[2] Administrative\n[1] Main Level\n[B1] Customs/Cargo/Checkpoint\n[B2] Engineering");
         FindObjectOfType<DialogueManager>().closeControlPanel();
         FindObjectOfType<DialogueManager>().DisableReplies();
-        FindObjectOfType<DialogueManager>().PromptInput();
+        FindObjectOfType<DialogueManager>().PromptCustomInput();
         StartCoroutine(promptWarmUp(0.6f));
 	}
 
@@ -41,7 +41,7 @@ public class Turbolift : NPC {
         else if (text == "2") {
             levelRequested = "administrative";
             FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nAdministrative level requires clearance.\n\nEnter access code.");
-            FindObjectOfType<DialogueManager>().PromptInput();
+            FindObjectOfType<DialogueManager>().PromptCustomInput();
         }
         else if (text == "1") {
             GameControl.control.fromTurbolift = true;
@@ -55,7 +55,7 @@ public class Turbolift : NPC {
         else if (text == "B2" || text == "b2") {
             levelRequested = "engineering";
             FindObjectOfType<DialogueManager>().SetDialogue("Turbolift A\n\n-----------\n\nEngineering level requires clearance.\n\nEnter access code.");
-            FindObjectOfType<DialogueManager>().PromptInput();          
+            FindObjectOfType<DialogueManager>().PromptCustomInput();          
         }
         else if (text == "3264") {
             GameControl.control.fromTurbolift = true;

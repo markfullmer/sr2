@@ -10,6 +10,7 @@ public class DialogueManager : MonoBehaviour {
 	public InputField inputField;
 	public GameObject inputPanel;
 	public GameObject infoPanel;
+	public GameObject customInput;
 	public GameObject controlPanel;
 	public Text buttonText1;
 	public Text buttonText2;
@@ -85,6 +86,7 @@ public class DialogueManager : MonoBehaviour {
 		EventSystem.current.SetSelectedGameObject(null);
 		inputPanel.gameObject.SetActive (false);
 		infoPanel.gameObject.SetActive (false);
+		customInput.gameObject.SetActive (false);
 		controlPanel.gameObject.SetActive (false);
 		GameControl.control.isControlPanel = false;
 		GameControl.control.playerInteracting = false;
@@ -98,6 +100,11 @@ public class DialogueManager : MonoBehaviour {
 	public void PromptInput() {
 		EventSystem.current.SetSelectedGameObject(null);
 		StartCoroutine(actionWarmUpPrompt(0.5f));
+	}
+
+	public void PromptCustomInput() {
+		EventSystem.current.SetSelectedGameObject(null);
+		StartCoroutine(actionWarmUpCustomPrompt(0.5f));
 	}
 
 	public void SetControlPanel (string b1 = null, string b2 = null, string b3 = null, string b4 = null)
@@ -145,6 +152,20 @@ public class DialogueManager : MonoBehaviour {
         }
 		GameControl.control.playerInteracting = true;
 		inputPanel.gameObject.SetActive (true);
+		infoPanel.gameObject.SetActive (true);
+		textInput.interactable = true;
+		inputField.text = "";
+		textInput.Select();
+    }
+
+    private IEnumerator actionWarmUpCustomPrompt(float cooldown) {
+        while ( cooldown > 0f ) {
+            cooldown -= Time.deltaTime;
+            yield return null;
+        }
+		GameControl.control.playerInteracting = true;
+		customInput.gameObject.SetActive (true);
+		inputPanel.gameObject.SetActive (false);
 		infoPanel.gameObject.SetActive (true);
 		textInput.interactable = true;
 		inputField.text = "";
