@@ -36,6 +36,7 @@ public class MaskedFigure : NPC {
         else if (state == "2") {
             if (reply == "1") {
                 GameControl.control.maskedfigure_state = "3";
+                GameControl.control.barkeep_state = "escape";
                 FindObjectOfType<DialogueManager>().SetDialogue("Things are not always as they seem, seer. You must find your way to Zed N-28.");
                 FindObjectOfType<DialogueManager>().SetReplies("Leave");
             }

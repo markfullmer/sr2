@@ -15,6 +15,10 @@ public class IntroScript : MonoBehaviour
     public Text text;
     public Text text2;
     public int state;
+    public AudioSource thrusters;
+    public AudioSource beep1;
+    public AudioSource beep2;
+    public AudioSource beep3;
     public bool isTransitioning;
 
     void Start () {
@@ -44,11 +48,13 @@ public class IntroScript : MonoBehaviour
         }
             if (state == 0) {
                 intro.enabled = false;
+                thrusters.Play(0);
                 intro2.enabled = true;
                 state = 1;
             }
             else if (state == 1) {
                 intro2.enabled = false;
+                beep1.Play(0);
                 sunracer.enabled = true;
                 text.enabled = true;
                 text.text = "On a routine training mission through the Far Arm quadrant, you find yourself returned to the Karonus system.\n\nHow long had it been...thirty years?";
@@ -82,11 +88,12 @@ public class IntroScript : MonoBehaviour
             else if (state == 6) {
                 hiathra.enabled = true;
                 hero.enabled = false;
+                beep2.Play(0);
                 text.text = "Your watch the pilot approach Hiathra Station's docking port. An all too familiar sense of foreboding makes itself known in the pit of your stomach.\n\n You have no clear goal...";
                 state = 7;
             }
             else if (state == 7) {
-                text2.text = "...except existence.";
+                text2.text = "...save entropy.";
                 text2.enabled = true;
                 state = 8;
             }

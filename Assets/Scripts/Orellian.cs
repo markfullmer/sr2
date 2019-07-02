@@ -9,6 +9,13 @@ public class Orellian : NPC {
 	private GameObject selected;
     public GameObject guard;
 
+    new void Start() {
+        base.Start(); // Load tilemaps, etc.
+        if (GameControl.control.orellian_state == "turbolift_access") {
+            guard.gameObject.SetActive (false);
+        }  
+    }
+
     public void interact() {
 		selected = GameObject.Find("Button1");
 		EventSystem.current.SetSelectedGameObject(selected);
@@ -38,15 +45,15 @@ public class Orellian : NPC {
         if (state == "0" && reply == "0") {
             Debug.Log("State is 0, reply is 0");
             FindObjectOfType<DialogueManager>().SetDialogue("You see a distinguished looking gentleman with silver hair and a winning smile. 'Welcome, Citizen,' he says, 'I am Orellian.' Then he pauses, eyes widening with recognition.\n\n'It's...it's you! The savior of the Imperium!'\n\nOrellian hesitates when you don't immediately answer. 'I mean...it,..It IS you, is it not?'");
-            FindObjectOfType<DialogueManager>().SetReplies("Yes, it's me.", "You're thinking of someone else.");
+            FindObjectOfType<DialogueManager>().SetReplies("You're thinking of someone else.", "Yes, it's me.");
         }
         else if (state == "0") {
-            if (reply == "1") {
+            if (reply == "2") {
                 GameControl.control.orellian_state = "friends";
                 FindObjectOfType<DialogueManager>().SetDialogue("'Oh, it's such an honour to have you here on Hiathra again, after these many years. I've read all about your exploits. Would you mind, though, telling me more about the journey to the Manchi Homeworld?'");
                 FindObjectOfType<DialogueManager>().SetReplies("Tell Orellian a story.", "Leave...quickly");
             }
-            else if (reply == "2") {
+            else if (reply == "1") {
                 GameControl.control.orellian_state = "stranger";
                 FindObjectOfType<DialogueManager>().SetDialogue("'Oh,' Orellian says, disappointed. You sure look like the posters. Ah well. Now, how may I help you, citizen?");
                 FindObjectOfType<DialogueManager>().SetReplies("Pilot's License", "Leave");
@@ -58,7 +65,7 @@ public class Orellian : NPC {
                 FindObjectOfType<DialogueManager>().SetReplies("Tell Orellian a story", "Leave, quickly");                
             }
             if (reply == "1") {
-                FindObjectOfType<DialogueManager>().SetDialogue("You regale the diplomat with a story of your exploits, only half-heartedly trying to conceal your boredom. Or is it some feeling other than boredom...?\n\nWhen you finish, Orellian gleams and shakes your hand, almost violently.\n\n 'Next time you're at Hiathra, do stop by and say hello. If I'm not in this office, check the Administrative level. Oh...and you'll need the turbolift code 3624.'");
+                FindObjectOfType<DialogueManager>().SetDialogue("You regale the diplomat with a story of your exploits, only half-heartedly trying to conceal your boredom. Or is it some feeling other than boredom...?\n\nWhen you finish, Orellian gleams and shakes your hand, almost violently.\n\n 'Next time you're at Hiathra, do stop by and say hello. If I'm not in this office, check the Administrative level. Oh...and you'll need the turbolift code 3264.'");
                 FindObjectOfType<DialogueManager>().SetReplies("Thank Orellian", "Leave");
                 GameControl.control.orellian_state = "turbolift_access";
                 guard.gameObject.SetActive (false);
@@ -75,7 +82,7 @@ public class Orellian : NPC {
             else if (reply == "1") {
                 GameControl.control.orellian_state = "pilots license";
                 FindObjectOfType<DialogueManager>().SetDialogue("Ah, a standard Pilot's license...If you'll just step over here for a DNA read, I can get the filing started.");
-                FindObjectOfType<DialogueManager>().SetReplies("Provide DNA test", "Leave");
+                FindObjectOfType<DialogueManager>().SetReplies("Consent to DNA test", "Leave");
             }
             else {
                 GameControl.control.orellian_state = "stranger";
@@ -95,7 +102,7 @@ public class Orellian : NPC {
         }
         else if (state == "turbolift_access") {
             if (reply == "0") {
-                FindObjectOfType<DialogueManager>().SetDialogue("Orellian gleams, shakes your hand.\n\n 'Next time you're at Hiathra, do stop by and say hello. If I'm not in this office, check the Administrative level. Oh...and you'll need the turbolift code 3624.'");
+                FindObjectOfType<DialogueManager>().SetDialogue("Orellian gleams, shakes your hand.\n\n 'Next time you're at Hiathra, do stop by and say hello. If I'm not in this office, check the Administrative level. Oh...and you'll need the turbolift code 3264.'");
                 FindObjectOfType<DialogueManager>().SetReplies("Thank Orellian", "Leave");
             }
             else  {

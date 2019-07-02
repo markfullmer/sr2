@@ -31,7 +31,7 @@ public class Player : CharacterBase {
         
         if (GameControl.control.game_state == "origin") {
             GameControl.control.playerInteracting = true;
-            FindObjectOfType<DialogueManager>().SetDialogue("Docking privileges at Hiathra granted. We've done a Level 4 check of your cargo for risks of biocontamination.\n\nThe station is observing a general quarantine due to an outbreak of Manchi flu. See the customs office for further information.\n\nWe hope you will have a pleasant visit.");
+            FindObjectOfType<DialogueManager>().SetDialogue("Docking privileges at Hiathra granted. We've done a Level 4 check of your cargo for risks of biocontamination.\n\nNOTE: The station is observing general quarantine due to an outbreak of Manchi flu. See Customs for further information.\n\nHave a pleasant visit.");
             StartCoroutine(actionWarmUp(1f));
         }
         // Reposition if coming from the turbolift in any scene.
@@ -40,7 +40,7 @@ public class Player : CharacterBase {
             GameObject turbolift = GameObject.Find("Turbolift");
             Vector3 newPosition = new Vector3(turbolift.transform.position.x, turbolift.transform.position.y - 1.0f, turbolift.transform.position.z);
             transform.position = newPosition;
-        }
+        }     
     }
 
     void OnGUI() {
@@ -116,6 +116,15 @@ public class Player : CharacterBase {
             else if (interactor.name == "ManchiPatron") {
                 interactor.GetComponent<ManchiPatron>().interact();
             }
+            else if (interactor.name == "OffDutyGuard") {
+                interactor.GetComponent<OffDutyGuard>().interact();
+            }
+            else if (interactor.name == "Botty") {
+                interactor.GetComponent<Botty>().interact();
+            }
+            else if (interactor.name == "Cebak") {
+                interactor.GetComponent<Cebak>().interact();
+            }
         }
         else {
             FindObjectOfType<DialogueManager>().SetDialogue("No one here.");
@@ -135,11 +144,14 @@ public class Player : CharacterBase {
             else if (interactor.name == "Passageway") {
                 interactor.GetComponent<Passageway>().interact();  
             }
-            else if (interactor.name == "EngineeringComputer1") {
+            else if (interactor.name.Contains("EngineeringComputer")) {
                 interactor.GetComponent<EngineeringComputer>().interact();  
             }
-            else if (interactor.name == "EngineeringComputer2") {
-                interactor.GetComponent<EngineeringComputer>().interact();  
+            else if (interactor.name.Contains("Door")) {
+                interactor.GetComponent<Door>().interact();  
+            }
+            else if (interactor.name.Contains("Sign")) {
+                interactor.GetComponent<Sign>().interact(interactor.name);  
             }
         }
         else {
@@ -193,6 +205,8 @@ public class Player : CharacterBase {
         foreach (GameObject door in doors) {
             var doorData = door.GetComponent<Door>();
             if (Vector2.Distance(targetCell, doorData.closed) <= 0.2) {
+                AudioSource audio = GetComponent<AudioSource>();
+                audio.Play(0);
                 StartCoroutine(OpenDoor(door, doorData));
             }
             else if (doorData.isOpen == true) {

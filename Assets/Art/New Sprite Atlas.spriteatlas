@@ -31,10 +31,11 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 66e497cefe308714e8c21473a9715f4c, type: 3}
-    totalSpriteSurfaceArea: 710656
+    totalSpriteSurfaceArea: 918256
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: ef825cf09b7e5cb47be629e7aacd532f, type: 3}
   - {fileID: 21300082, guid: 418dab43a0136df4c9d70bad101d8881, type: 3}
   - {fileID: 21300080, guid: 418dab43a0136df4c9d70bad101d8881, type: 3}
   - {fileID: 21300086, guid: 418dab43a0136df4c9d70bad101d8881, type: 3}
@@ -206,6 +207,7 @@ SpriteAtlas:
   - {fileID: 21300042, guid: a9dee0e5cb6d99b4ea188dbd35c8b341, type: 3}
   - {fileID: 21300044, guid: a9dee0e5cb6d99b4ea188dbd35c8b341, type: 3}
   - {fileID: 21300046, guid: a9dee0e5cb6d99b4ea188dbd35c8b341, type: 3}
+  - {fileID: 21300000, guid: 6ce1370607080054fb30830894a96b7c, type: 3}
   - {fileID: 21300012, guid: cddbc307307df31449e600167561591e, type: 3}
   - {fileID: 21300014, guid: cddbc307307df31449e600167561591e, type: 3}
   - {fileID: 21300008, guid: cddbc307307df31449e600167561591e, type: 3}
@@ -404,6 +406,7 @@ SpriteAtlas:
   - {fileID: 21300106, guid: 04d8bed8e9de6a845b425f4fc8acd26c, type: 3}
   - {fileID: 21300100, guid: 04d8bed8e9de6a845b425f4fc8acd26c, type: 3}
   - {fileID: 21300102, guid: 04d8bed8e9de6a845b425f4fc8acd26c, type: 3}
+  - {fileID: 21300000, guid: 71fe35ea9ffdc354e9d100c0c422ebaa, type: 3}
   - {fileID: 21300022, guid: fa8577db678fe37458240216457b500c, type: 3}
   - {fileID: 21300020, guid: fa8577db678fe37458240216457b500c, type: 3}
   - {fileID: 21300012, guid: fa8577db678fe37458240216457b500c, type: 3}
@@ -466,6 +469,7 @@ SpriteAtlas:
   - {fileID: 21300086, guid: 1a5b161c5f9c16d4f837f075c97f2f51, type: 3}
   - {fileID: 21300000, guid: a24db63e55ef3bc48aa66a05479e604c, type: 3}
   m_PackedSpriteNamesToIndex:
+  - frame-outro
   - floors-walls-3_41
   - floors-walls-3_40
   - floors-walls-3_43
@@ -637,6 +641,7 @@ SpriteAtlas:
   - walls-2_21
   - walls-2_22
   - walls-2_23
+  - hiathra-station
   - manchi-1_6
   - manchi-1_7
   - manchi-1_4
@@ -835,6 +840,7 @@ SpriteAtlas:
   - exterior-floor-1_53
   - exterior-floor-1_50
   - exterior-floor-1_51
+  - outro
   - floors-walls-2_11
   - floors-walls-2_10
   - floors-walls-2_6

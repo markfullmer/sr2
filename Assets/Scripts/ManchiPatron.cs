@@ -14,8 +14,8 @@ public class ManchiPatron : NPC {
         iList.Add("The insectoid seems briefly to make eye contact before click-clicking away.");
         iList.Add("At your approach, the Manchi shuffles away, making those hideous clicking sounds.");
         iList.Add("'Xhad..kclx kclx zkkkkk.'\n\nWas that a greeting...or an insult? Eh, let buggers be buggers.");
-        iList.Add("A Manchi...with an Imperium chevron on their ident plate! Who'd've imagined the Manchi would one day be citizens of the Imperium?");
-        iList.Add("Manchi living this deep in the heart of the Far Arm!\n\nOf course, it's thirty years since we discovered the Manchi raids to be a plot by Admiral Koth. Still, who could have imagined them ever on Hiathra...");
+        iList.Add("A Manchi...with an Imperium chevron ident! Most of the Imperium still consider Manchi too...emotionless...to be citizens. Or is the opposition something else?\n\nFear? And if fear...what kind of fear?");
+        iList.Add("Manchi living this deep in the heart of the Far Arm.\n\nOf course, it's thirty years since the end of the Manchi wars. Still, who'd've imagined them on Hiathra Station...");
         FindObjectOfType<DialogueManager>().SetDialogue(iList[choice]);
         StartCoroutine(actionWarmUp(0.6f));
 	}

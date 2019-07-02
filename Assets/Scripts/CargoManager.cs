@@ -12,13 +12,13 @@ public class CargoManager : NPC {
         string state = GameControl.control.cargomanager_state;
         if (state == "0" && reply == "0") {
             FindObjectOfType<DialogueManager>().SetDialogue("A bored looking humanoid shifts their gaze from a console, with geologic alacrity.\n\n'Customs desk. Scan your guild licence.'");
-            FindObjectOfType<DialogueManager>().SetReplies("Scan guild licence", "Leave");
+            FindObjectOfType<DialogueManager>().SetReplies("Scan guild licence", "Refuse");
         }
         else if (state == "0") {
             if (reply == "1") {
                 GameControl.control.cargomanager_state = "1";
                 FindObjectOfType<DialogueManager>().SetDialogue("'Hrm...no outstanding fines...', the customs official says, scanning your records.\n\n 'Ah...your ship's cargo manifest indicates three containers of methane. Your ship won't be permitted to leave the station, due to the quarantine policy.'");
-                FindObjectOfType<DialogueManager>().SetReplies("How do get off the station, then?", "Leave");
+                FindObjectOfType<DialogueManager>().SetReplies("How do I get off the station, then?", "Leave");
             }
             else if (reply == "2") {
                 end();
@@ -41,7 +41,7 @@ public class CargoManager : NPC {
         else if (state == "2") {
             if (reply == "1") {
                 GameControl.control.cargomanager_state = "3";
-                FindObjectOfType<DialogueManager>().SetDialogue("'It's a sarcastically immense pleasure to serve you, bub.'");
+                FindObjectOfType<DialogueManager>().SetDialogue("'It's an immense pleasure to serve you, bub.'");
                 FindObjectOfType<DialogueManager>().SetReplies("Leave");
             }
             else if (reply == "2") {

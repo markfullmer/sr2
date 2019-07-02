@@ -10,8 +10,8 @@ public class DialogueManager : MonoBehaviour {
 	public InputField inputField;
 	public GameObject inputPanel;
 	public GameObject infoPanel;
-	public GameObject customInput;
 	public GameObject controlPanel;
+	public GameObject customInput;
 	public Text buttonText1;
 	public Text buttonText2;
 	public Text buttonText3;
@@ -31,6 +31,7 @@ public class DialogueManager : MonoBehaviour {
         inputPanel.gameObject.SetActive (false);
 		infoPanel.gameObject.SetActive (false);
 		controlPanel.gameObject.SetActive (false);
+		customInput.gameObject.SetActive (false);
     }
 
 	public void openControlPanel() {
@@ -64,6 +65,7 @@ public class DialogueManager : MonoBehaviour {
         }
 		GameControl.control.isControlPanel = false;
 		controlPanel.gameObject.SetActive (false);
+		customInput.gameObject.SetActive (false);
         inputPanel.gameObject.SetActive (true);
 		infoPanel.gameObject.SetActive (true);
 		reply1.Select();
@@ -74,23 +76,14 @@ public class DialogueManager : MonoBehaviour {
 		controlPanel.gameObject.SetActive (false);
 	}
 
+	public void closeInputPanel() {
+		GameControl.control.isControlPanel = false;
+		inputPanel.gameObject.SetActive (false);
+	}
+
 	public void exit() {
 		StartCoroutine(actionCloseDown(0.3f));
 	}
-
-    private IEnumerator actionCloseDown(float cooldown) {
-        while ( cooldown > 0f ) {
-            cooldown -= Time.deltaTime;
-            yield return null;
-        }
-		EventSystem.current.SetSelectedGameObject(null);
-		inputPanel.gameObject.SetActive (false);
-		infoPanel.gameObject.SetActive (false);
-		customInput.gameObject.SetActive (false);
-		controlPanel.gameObject.SetActive (false);
-		GameControl.control.isControlPanel = false;
-		GameControl.control.playerInteracting = false;
-    }
 
 	public void DisableReplies() {
 		reply1.interactable = false;
@@ -102,13 +95,10 @@ public class DialogueManager : MonoBehaviour {
 		StartCoroutine(actionWarmUpPrompt(0.5f));
 	}
 
-	public void PromptCustomInput() {
-		EventSystem.current.SetSelectedGameObject(null);
-		StartCoroutine(actionWarmUpCustomPrompt(0.5f));
-	}
-
 	public void SetControlPanel (string b1 = null, string b2 = null, string b3 = null, string b4 = null)
 	{
+		controlPanel.gameObject.SetActive (true);
+		button1.Select();
 		buttonText1.text = b1;
 		buttonText2.text = b2;
 		buttonText3.text = b3;
@@ -118,6 +108,8 @@ public class DialogueManager : MonoBehaviour {
 	public void SetReplies (string b1 = null, string b2 = null)
 	{
 		StartCoroutine(actionWarmUp(0.3f));
+		reply1.interactable = true;
+		reply2.interactable = true;
 		replytext1.text = b1;
 		replytext2.text = b2;
 	}
@@ -141,6 +133,8 @@ public class DialogueManager : MonoBehaviour {
             yield return null;
         }
 		GameControl.control.playerInteracting = true;
+		customInput.gameObject.SetActive (false);
+		inputPanel.gameObject.SetActive (true);
 		infoPanel.gameObject.SetActive (true);
 		reply1.Select();
     }
@@ -151,28 +145,19 @@ public class DialogueManager : MonoBehaviour {
             yield return null;
         }
 		GameControl.control.playerInteracting = true;
-		inputPanel.gameObject.SetActive (true);
-		infoPanel.gameObject.SetActive (true);
-		textInput.interactable = true;
-		inputField.text = "";
-		textInput.Select();
-    }
-
-    private IEnumerator actionWarmUpCustomPrompt(float cooldown) {
-        while ( cooldown > 0f ) {
-            cooldown -= Time.deltaTime;
-            yield return null;
-        }
-		GameControl.control.playerInteracting = true;
-		customInput.gameObject.SetActive (true);
 		inputPanel.gameObject.SetActive (false);
+		customInput.gameObject.SetActive (true);
 		infoPanel.gameObject.SetActive (true);
 		textInput.interactable = true;
 		inputField.text = "";
 		textInput.Select();
     }
 
-    private IEnumerator actionCooldown(float cooldown) {
+	public void EndDialogue() {
+		StartCoroutine(actionCloseDown(0.3f));
+	}
+
+    private IEnumerator actionCloseDown(float cooldown) {
         while ( cooldown > 0f ) {
             cooldown -= Time.deltaTime;
             yield return null;
@@ -180,13 +165,10 @@ public class DialogueManager : MonoBehaviour {
 		EventSystem.current.SetSelectedGameObject(null);
 		inputPanel.gameObject.SetActive (false);
 		infoPanel.gameObject.SetActive (false);
+		customInput.gameObject.SetActive (false);
 		controlPanel.gameObject.SetActive (false);
 		GameControl.control.isControlPanel = false;
 		GameControl.control.playerInteracting = false;
     }
-
-	public void EndDialogue() {
-		StartCoroutine(actionCloseDown(0.3f));
-	}
 
 }

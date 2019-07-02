@@ -83,7 +83,7 @@ public class CharacterBase : MonoBehaviour {
         GameObject[] players;
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players) {
-            if (Vector2.Distance(targetCell, player.transform.position) <= 3.5) {
+            if (Vector2.Distance(targetCell, player.transform.position) <= 2) {
                 return true;
             }
         }
@@ -106,6 +106,12 @@ public class CharacterBase : MonoBehaviour {
         players = GameObject.FindGameObjectsWithTag("NPC");
         foreach (GameObject player in players) {
             if (Vector2.Distance(targetCell, player.transform.position) <= 0.5) {
+                if (player.gameObject.name == "JollyRoger") {
+                    player.gameObject.GetComponent<JollyRoger>().interact();
+                }
+                else if (player.gameObject.name == "Tesseract") {
+                    player.gameObject.GetComponent<Tesseract>().interact();
+                }
                 return true;
             }
         }
@@ -173,6 +179,17 @@ public class CharacterBase : MonoBehaviour {
             if (distance <= 1) {
                 interactor = interactive;
                 break;
+            }
+        }
+        GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+        foreach (GameObject interactive in doors) {
+            float distance = Vector2.Distance(currentCell, interactive.transform.position);
+            if (distance <= 1) {
+                Door controlscript = interactive.GetComponent<Door>();
+                if (controlscript.locked == true) {
+                    interactor = interactive;
+                    break;
+                }
             }
         }
         return interactor;
