@@ -15,14 +15,20 @@ public class GameControl : MonoBehaviour
     public string cebak_state = "0";
     public string bookshop_state = "0";
     public string offduty_state = "0";
+    public int manchi_convo = 0;
+    public int barkeep_convo = 0;
+    public int patron_convo = 0;
     public string maskedfigure_state = "0";
     public string monty_state = "0";
     public string cargomanager_state = "0";
+    public string immigration_state = "0";
     public string orellian_relationship;
     public bool playerInteracting;
     public bool isControlPanel;
+    public bool isMerchPanel;
     public bool muted;
     public bool dockingReleased = false;
+    public string[] cargo;
 
     // Start is called before the first frame update
     void Awake() {

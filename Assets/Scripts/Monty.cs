@@ -9,7 +9,6 @@ public class Monty : NPC {
 	private GameObject selected;
 
     public void interact() {
-        Debug.Log("interact triggered");
 		selected = GameObject.Find("Button1");
 		EventSystem.current.SetSelectedGameObject(selected);
         FindObjectOfType<DialogueManager>().openInputPanel();

@@ -23,7 +23,6 @@ public class Barkeep : NPC {
     void OnGUI() {
         Event e = Event.current;
         if (isInteracting && e.isKey) {
-            Debug.Log(EventSystem.current.currentSelectedGameObject);
             if (Event.current.Equals(Event.KeyboardEvent("return")) || Event.current.Equals(Event.KeyboardEvent("[enter]"))) {
                 if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
                     GameControl.control.credits = GameControl.control.credits - 2;
@@ -46,14 +45,22 @@ public class Barkeep : NPC {
 
     string getGossip() {
         GameControl.control.barkeep_state = "0";
-        int choice = Random.Range(0, 6);
+        int state = GameControl.control.barkeep_convo;
         List<string> iList = new List<string>();
+        iList.Add("If you're a Guild runner, worst luck, eh? Customs proscribed sale of just about anything organic.\n\nIt hasn't helped the miners, neither, cause merchers are selling the mineral dirt cheap.");
         iList.Add("Business just ain't what it usedta, what with these buggers everywhere. Buggers don't drink. Buggers don't gamble. For Bok's sake, they ain't even interested in anagathics.");
         iList.Add("Suppose you heard about Avenstar? 4,340 InterGal seats lost this election. Meaning, she gotta step down. Parliament may leave Deneb System entirely.\n\nAfter 30-odd years, it's about time, says I.");
         iList.Add("Sorry about the smell. It's this bokkin' bugger flu. Station doctor ordered daily sani-sweeps.");
         iList.Add("Know what I saw the other day? A Sishaz eyeing a bugger. Told me the bugger had a shapely thorax.\n\nDisgusting.");
-        iList.Add("If you're a Guild runner, worst luck, eh? Customs proscribed sale of just about anything organic.\n\nIt hasn't helped the miners, neither, cause merchers are selling the mineral dirt cheap.");
         iList.Add("You know, I've really been enjoying the poems of William Wordsworth lately.\n\n'The things which I have seen I now can see no more...'");
-        return iList[choice] + "\n\nAnother one?";
+        string convo = iList[state] + "\n\nAnother one?";
+        if (state >= 5) {
+            state = 0;
+        }
+        else {
+            state = state + 1;
+        }
+        GameControl.control.barkeep_convo = state;
+        return convo;
     }
 }

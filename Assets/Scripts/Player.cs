@@ -17,9 +17,13 @@ public class Player : CharacterBase {
     private GameObject[] doors;
     private AudioSource exteriorAmbience;
     private AudioSource interiorAmbience;
+    public Sprite[] sprites;
+    private string controlPanelState;
+    private SpriteRenderer spriteRenderer;
 
     new void Start() {
         base.Start(); // Load tilemaps, etc.
+        spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
         GameObject a = GameObject.Find("ExteriorAmbience");
         if (a != null) {
             exteriorAmbience = a.GetComponent<AudioSource>();
@@ -51,13 +55,28 @@ public class Player : CharacterBase {
                     FindObjectOfType<DialogueManager>().openControlPanel();
                 }
                 else {
+                    if (Event.current.Equals(Event.KeyboardEvent("left")) || Event.current.Equals(Event.KeyboardEvent("left"))) {
+                        StartCoroutine(actionMove(0, 1));
+                    }
+                    else if (Event.current.Equals(Event.KeyboardEvent("right")) || Event.current.Equals(Event.KeyboardEvent("right"))) {
+                        StartCoroutine(actionMove(2, 3));
+                    }
+                    else if (Event.current.Equals(Event.KeyboardEvent("up")) || Event.current.Equals(Event.KeyboardEvent("up"))) {
+                        StartCoroutine(actionMove(4, 5));
+                    }
+                    else if (Event.current.Equals(Event.KeyboardEvent("down")) || Event.current.Equals(Event.KeyboardEvent("down"))) {
+                        StartCoroutine(actionMove(6, 7));
+                    }
                     Vector2 startCell = transform.position;
                     handleMove(startCell);
                 }
             }
             else if (GameControl.control.isControlPanel) {
                 if (Event.current.Equals(Event.KeyboardEvent("return")) || Event.current.Equals(Event.KeyboardEvent("[enter]"))) {
-                    if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
+                    if (controlPanelState == "status") {
+                        handleStatus();
+                    }
+                    else if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
                         Vector2 startCell = transform.position;
                         handleNPC(startCell);
 				    }
@@ -66,7 +85,8 @@ public class Player : CharacterBase {
                         handleInteract(startCell);
 				    }
                     else if (EventSystem.current.currentSelectedGameObject.name == "Status") {
-
+                        controlPanelState = "status";
+                        FindObjectOfType<DialogueManager>().SetControlPanel("Ship", "Onboard", "Person", "Done");
 				    }
                     else {
                         FindObjectOfType<DialogueManager>().exit();
@@ -79,6 +99,28 @@ public class Player : CharacterBase {
             GameControl.control.playerInteracting = false;
             FindObjectOfType<DialogueManager>().exit();
         }
+    }
+    
+    private void handleStatus() {
+        if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
+            FindObjectOfType<DialogueManager>().SetDialogue("DAMAGE CONTROL\n\narmor: 750/750\n\nlaser...........<ok>\n\nlauncher........<ok>\n\nengine..........<ok>\n\nfore shield.....<ok>\n\naft shield......<ok>\n\nFTL drive.......<ok>\n\n");
+        }
+        else if (EventSystem.current.currentSelectedGameObject.name == "Inspect") {
+            string[] cargo = GameControl.control.cargo;
+            string cargo_manifest = "";
+            foreach (string i in cargo)
+            {
+                cargo_manifest = cargo_manifest + i + "\n\n";
+            }
+            FindObjectOfType<DialogueManager>().SetDialogue("Cargo\n\n_____\n\n" + cargo_manifest);
+        }
+        else if (EventSystem.current.currentSelectedGameObject.name == "Status") {
+            FindObjectOfType<DialogueManager>().SetDialogue("_____________________\n\nRACE......homo sapien\n\nCREDITS.........1500\n\nBOUNTY.............0\n\nREPUTE........legend\n\n\n\nImperium......adored\n\nGuild..........liked\n\nPirates......neutral\n\nManchi.......neutral\n\n");
+        }
+        else {
+            FindObjectOfType<DialogueManager>().exit();
+            controlPanelState = "0";
+        }   
     }
 
     // Check for interactives & respond.
@@ -112,6 +154,9 @@ public class Player : CharacterBase {
             }
             else if (interactor.name.Contains("CargoWorker")) {
                 interactor.GetComponent<ManchiWorker>().interact();
+            }
+            else if (interactor.name == "Cargo") {
+                interactor.GetComponent<Cargo>().interact();
             }
             else if (interactor.name == "ManchiPatron") {
                 interactor.GetComponent<ManchiPatron>().interact();
@@ -260,6 +305,16 @@ public class Player : CharacterBase {
         }
 
         isMoving = false;
+    }
+
+    protected IEnumerator actionMove(int first, int second) {
+        var cooldown = 0.1f;
+        spriteRenderer.sprite = sprites[first];
+        while ( cooldown > 0f ) {
+            cooldown -= Time.deltaTime;
+            yield return null;
+        }
+        spriteRenderer.sprite = sprites[second];
     }
 
     protected IEnumerator actionWarmUp(float cooldown) {

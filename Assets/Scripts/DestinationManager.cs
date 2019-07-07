@@ -9,7 +9,6 @@ public class DestinationManager : MonoBehaviour
      // Use this for initialization
      void Start () {
          player = GameObject.FindGameObjectWithTag("Player"); //find the player object in the scene.
-         Debug.Log(player);
          //player.transform.position = gameObject.transform.position; //set the player object position to equal the empty gameobject.
      }
 }

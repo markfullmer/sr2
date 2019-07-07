@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour {
 	public GameObject infoPanel;
 	public GameObject controlPanel;
 	public GameObject customInput;
+	public GameObject merchPanel;
 	public Text buttonText1;
 	public Text buttonText2;
 	public Text buttonText3;
@@ -25,11 +26,25 @@ public class DialogueManager : MonoBehaviour {
 	public Selectable textInput;
 	public Text replytext1;
 	public Text replytext2;
+	public Text merchText1;
+	public Text merchText2;
+	public Text merchText3;
+	public Text merchText4;
+	public Text merchText5;
+	public Text merchText6;
+	public Text merchResponse;
+	public Selectable merch1;
+	public Selectable merch2;
+	public Selectable merch3;
+	public Selectable merch4;
+	public Selectable merch5;
+	public Selectable merch6;
 
     void Start()
     {
         inputPanel.gameObject.SetActive (false);
 		infoPanel.gameObject.SetActive (false);
+		merchPanel.gameObject.SetActive (false);
 		controlPanel.gameObject.SetActive (false);
 		customInput.gameObject.SetActive (false);
     }
@@ -40,6 +55,10 @@ public class DialogueManager : MonoBehaviour {
 
 	public void openInputPanel() {
 		StartCoroutine(inputPanelWarmUp(0.3f));
+	}
+
+	public void openMerchPanel() {
+		StartCoroutine(merchPanelWarmUp(0.3f));
 	}
 
     private IEnumerator controlPanelWarmUp(float cooldown) {
@@ -56,6 +75,19 @@ public class DialogueManager : MonoBehaviour {
         inputPanel.gameObject.SetActive (false);
 		infoPanel.gameObject.SetActive (false);
 		button1.Select();
+    }
+
+    private IEnumerator merchPanelWarmUp(float cooldown) {
+        while ( cooldown > 0f ) {
+            cooldown -= Time.deltaTime;
+            yield return null;
+        }
+		GameControl.control.isMerchPanel = true;
+		merchPanel.gameObject.SetActive (true);
+		controlPanel.gameObject.SetActive (true);
+        inputPanel.gameObject.SetActive (false);
+		infoPanel.gameObject.SetActive (false);
+		merch1.Select();
     }
 
     private IEnumerator inputPanelWarmUp(float cooldown) {
@@ -99,10 +131,132 @@ public class DialogueManager : MonoBehaviour {
 	{
 		controlPanel.gameObject.SetActive (true);
 		button1.Select();
-		buttonText1.text = b1;
-		buttonText2.text = b2;
-		buttonText3.text = b3;
-		buttonText4.text = b4;
+		if (b1 != null) {
+			button1.gameObject.SetActive (true);
+			buttonText1.text = b1;
+		}
+		else {
+			button1.gameObject.SetActive (false);
+		}
+		if (b2 != null) {
+			button2.gameObject.SetActive (true);
+			buttonText2.text = b2;
+		}
+		else {
+			button2.gameObject.SetActive (false);
+		}
+		if (b3 != null) {
+			button3.gameObject.SetActive (true);
+			buttonText3.text = b3;
+		}
+		else {
+			button3.gameObject.SetActive (false);
+		}
+		if (b4 != null) {
+			button4.gameObject.SetActive (true);
+			buttonText4.text = b4;
+		}
+		else {
+			button4.gameObject.SetActive (false);
+		}
+	}
+
+	public void setBuy (string m1 = null, string m2 = null, string m3 = null, string m4 = null, string m5 = null, string m6 = null)
+	{
+		if (m1 != null) {
+			merch1.gameObject.SetActive (true);
+			merchText1.text = m1;
+		}
+		else {
+			merch1.gameObject.SetActive (false);
+		}
+		if (m2 != null) {
+			merch2.gameObject.SetActive (true);
+			merchText2.text = m2;
+		}
+		else {
+			merch2.gameObject.SetActive (false);
+		}
+		if (m3 != null) {
+			merch3.gameObject.SetActive (true);
+			merchText3.text = m3;
+		}
+		else {
+			merch3.gameObject.SetActive (false);
+		}
+		if (m4 != null) {
+			merch4.gameObject.SetActive (true);
+			merchText4.text = m4;
+		}
+		else {
+			merch4.gameObject.SetActive (false);
+		}
+		if (m5 != null) {
+			merch5.gameObject.SetActive (true);
+			merchText5.text = m5;
+		}
+		else {
+			merch5.gameObject.SetActive (false);
+		}
+		if (m6 != null) {
+			merch6.gameObject.SetActive (true);
+			merchText6.text = m6;
+		}
+		else {
+			merch6.gameObject.SetActive (false);
+		}
+		openMerchPanel();
+	}
+
+	public void setMerchResponse(string text = null) {
+		merchResponse.text = text;
+	}
+
+	public void setSell (string m1 = null, string m2 = null, string m3 = null, string m4 = null, string m5 = null, string m6 = null)
+	{
+		if (m1 != null) {
+			merch1.gameObject.SetActive (true);
+			merchText1.text = m1;
+		}
+		else {
+			merch1.gameObject.SetActive (false);
+		}
+		if (m2 != null) {
+			merch2.gameObject.SetActive (true);
+			merchText2.text = m2;
+		}
+		else {
+			merch2.gameObject.SetActive (false);
+		}
+		if (m3 != null) {
+			merch3.gameObject.SetActive (true);
+			merchText3.text = m3;
+		}
+		else {
+			merch3.gameObject.SetActive (false);
+		}
+		if (m4 != null) {
+			merch4.gameObject.SetActive (true);
+			merchText4.text = m4;
+		}
+		else {
+			merch4.gameObject.SetActive (false);
+		}
+		if (m5 != null) {
+			merch5.gameObject.SetActive (true);
+			merchText5.text = m5;
+		}
+		else {
+			merch5.gameObject.SetActive (false);
+		}
+		if (m6 != null) {
+			merch6.gameObject.SetActive (true);
+			merchText6.text = m6;
+		}
+		else {
+			merch6.gameObject.SetActive (false);
+		}
+		openMerchPanel();
 	}
 
 	public void SetReplies (string b1 = null, string b2 = null)
@@ -167,7 +321,9 @@ public class DialogueManager : MonoBehaviour {
 		infoPanel.gameObject.SetActive (false);
 		customInput.gameObject.SetActive (false);
 		controlPanel.gameObject.SetActive (false);
+		merchPanel.gameObject.SetActive (false);
 		GameControl.control.isControlPanel = false;
+		GameControl.control.isMerchPanel = false;
 		GameControl.control.playerInteracting = false;
     }
 

@@ -21,7 +21,7 @@ public class Cebak : NPC {
 
     void observationDeck(string reply, string state) {
         if (state == "drinks" && reply == "0") {
-            FindObjectOfType<DialogueManager>().SetDialogue("So Cebak hadn't been lying about meeting on the observation deck. There she is, acknowledging you with an all-too-intense gaze.\n\nSomething tells you she isn't just interested in drinks.\n\nTo confront or not to confront...");
+            FindObjectOfType<DialogueManager>().SetDialogue("Cebak hadn't been lying about meeting on the observation deck. Here she is, acknowledging you with an all-too-intense gaze.\n\nSomething tells you she isn't interested in drinks.\n\nTo confront or not to confront...");
             FindObjectOfType<DialogueManager>().SetReplies("So! Drinks...", "Out with it. Why'd you really want to meet?");
         }
         else if (state == "drinks") {
@@ -43,7 +43,7 @@ public class Cebak : NPC {
             }
             else if (reply == "2") {
                 GameControl.control.cebak_state = "5";
-                FindObjectOfType<DialogueManager>().SetDialogue("Cebak seems unphased by your deliberate attempt to redirect the conversation. She laughs gently.\n\n'You know, I've actually been wanting to get off this station for awhile now. Places to go, things to see...'");
+                FindObjectOfType<DialogueManager>().SetDialogue("Cebak seems unphased by your deliberate attempt to redirect. She laughs gently.\n\n'You know, I've actually been wanting to get off this station for awhile now. Places to go, things to see...'");
                 FindObjectOfType<DialogueManager>().SetReplies("Discuss the quarantine on the station", "Discuss other star systems");
             }         
         }
@@ -78,23 +78,23 @@ public class Cebak : NPC {
             GameControl.control.cebak_state = "1";
             if (reply == "1") {
                 FindObjectOfType<DialogueManager>().SetDialogue("The woman takes her eyes off the vid screen and gazes up, softly.\n\n'I don't believe we're acquainted. I'm Cebak.'");
-                FindObjectOfType<DialogueManager>().SetReplies("And you have a sister...named Tiwa!", "I'm a...merchant. Just hopping through Malir gates.");
+                FindObjectOfType<DialogueManager>().SetReplies( "I'm a...merchant. Just hopping through Malir gates.", "And you have a sister...named Tiwa!");
             }
             else if (reply == "2") {
                 FindObjectOfType<DialogueManager>().SetDialogue("'Lived here about all my life! I'm a station barnacle. No interest -- no reason -- to travel out of sector. Plus, the Malir gates give me the creeps.'");
-                FindObjectOfType<DialogueManager>().SetReplies("I hear Nar'see is a boom sector right now.", "Malir gates...the only way to travel");
+                FindObjectOfType<DialogueManager>().SetReplies("Malir gates...the only way to travel", "I hear Nar'see is a boom sector right now.");
             }
         }
         else if (state == "1") {
             if (reply == "1") {
-                GameControl.control.cebak_state = "friendly";
-                FindObjectOfType<DialogueManager>().SetDialogue("'Yes, I have a sister on Lagrange station in Nar'see,' Cebak nods. She seems a bit taken aback.\n\n'She's more the traveler than me. You know her?'");
-                FindObjectOfType<DialogueManager>().SetReplies("Yes, we're business acquaintances", "No, not directly. She's...a friend of a friend.");
+                GameControl.control.cebak_state = "suspicious";
+                FindObjectOfType<DialogueManager>().SetDialogue("'Yes, the Imperium relies on...and exploits...the Malir gates, regulating who and what can travel through near space.\n\nCebak's eyes narrow, and for a brief moment you have the utter conviction that this woman is more than she is letting on.");
+                FindObjectOfType<DialogueManager>().SetReplies("A pox on the Imperium, eh?", "Somebody's got to regulate things, what with the Manchi here");
             }
             else if (reply == "2") {
-                GameControl.control.cebak_state = "suspicious";
-                FindObjectOfType<DialogueManager>().SetDialogue("Cebak's eyes narrow, and for a brief moment you have the utter conviction that this woman is more than she is letting on.\n\n'Yes, the Imperium relies on...and exploits...the Malir gates, regulating who and what can travel through near space.");
-                FindObjectOfType<DialogueManager>().SetReplies("A pox on the Imperium, eh?", "Somebody's got to regulate things, what with the Manchi here");
+                GameControl.control.cebak_state = "friendly";
+                FindObjectOfType<DialogueManager>().SetDialogue("'Yes, I have a sister on Lagrange station in Nar'see,' Cebak nods. She seems a bit taken aback.\n\n'She's more the traveler than me. You know her?'");
+                FindObjectOfType<DialogueManager>().SetReplies("Yes, we're business acquaintances", "No, not directly. She's...a friend of a friend."); 
             }         
         }
         else if (state == "suspicious") {

@@ -17,7 +17,7 @@ public class CargoManager : NPC {
         else if (state == "0") {
             if (reply == "1") {
                 GameControl.control.cargomanager_state = "1";
-                FindObjectOfType<DialogueManager>().SetDialogue("'Hrm...no outstanding fines...', the customs official says, scanning your records.\n\n 'Ah...your ship's cargo manifest indicates three containers of methane. Your ship won't be permitted to leave the station, due to the quarantine policy.'");
+                FindObjectOfType<DialogueManager>().SetDialogue("'Hrm...no outstanding fines...', the customs official says, scanning your records.\n\n 'Ah...your ship's cargo manifest indicates three containers of hybrid grain. Your ship won't be permitted to leave the station, due to the quarantine policy.'");
                 FindObjectOfType<DialogueManager>().SetReplies("How do I get off the station, then?", "Leave");
             }
             else if (reply == "2") {
@@ -26,7 +26,7 @@ public class CargoManager : NPC {
         }
         else if (state == "1") {
             if (reply == "0") {
-                FindObjectOfType<DialogueManager>().SetDialogue("'And...it's you again. Fellow with the quarantined methane. What now?'");
+                FindObjectOfType<DialogueManager>().SetDialogue("'And...it's you again. Fellow with the quarantined hybrid grain. What now?'");
                 FindObjectOfType<DialogueManager>().SetReplies("How do I get off the station?", "Leave");
             }
             if (reply == "1") {

@@ -11,14 +11,14 @@ public class Tesseract : NPC {
         bool docking = GameControl.control.dockingReleased;
         string botty = GameControl.control.botty_state;
         string dialogue = "";
-        if ((docking == true && botty == "3") || true) {
+        StartCoroutine(actionWarmUp(0.6f));
+        if ((docking == true && botty == "3")) {
             FindObjectOfType<DialogueManager>().SetDialogue("You try the hatch of the Tesseract class ship. To your surprise it opens. You step inside.\n\nThe main cabin is empty and dark. You move forward, squeezing into the cramped cockpit, to find the LUX-3 model at the controls.\n\n'Imagine...an unplanned docking systems maintenance!' LUX-3 looks at you knowingly.\n\n'Ready to shove off?'");
             FindObjectOfType<DialogueManager>().SetControlPanel("Join the trip", "Exit the ship");
         }
         else {
             dialogue = "A glowing red eyeball scans your retina.\n\nUNKNOWN IDENTITY. ACCESS DENIED\n\nYou kick the docking clamp on the tesseract class vessel and move away.";
             FindObjectOfType<DialogueManager>().SetDialogue(dialogue);
-            StartCoroutine(actionWarmUp(0.6f));
         }
 	}
 

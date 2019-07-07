@@ -43,7 +43,6 @@ public class Orellian : NPC {
     void triggerResponse(string reply) {
         string state = GameControl.control.orellian_state;
         if (state == "0" && reply == "0") {
-            Debug.Log("State is 0, reply is 0");
             FindObjectOfType<DialogueManager>().SetDialogue("You see a distinguished looking gentleman with silver hair and a winning smile. 'Welcome, Citizen,' he says, 'I am Orellian.' Then he pauses, eyes widening with recognition.\n\n'It's...it's you! The savior of the Imperium!'\n\nOrellian hesitates when you don't immediately answer. 'I mean...it,..It IS you, is it not?'");
             FindObjectOfType<DialogueManager>().SetReplies("You're thinking of someone else.", "Yes, it's me.");
         }
