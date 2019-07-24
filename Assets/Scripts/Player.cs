@@ -158,6 +158,9 @@ public class Player : CharacterBase {
             else if (interactor.name == "Cargo") {
                 interactor.GetComponent<Cargo>().interact();
             }
+            else if (interactor.name == "Supplies") {
+                interactor.GetComponent<Supplies>().interact();
+            }
             else if (interactor.name == "ManchiPatron") {
                 interactor.GetComponent<ManchiPatron>().interact();
             }

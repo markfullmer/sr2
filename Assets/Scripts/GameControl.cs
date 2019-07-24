@@ -21,6 +21,7 @@ public class GameControl : MonoBehaviour
     public string maskedfigure_state = "0";
     public string monty_state = "0";
     public string cargomanager_state = "0";
+    public string supplies_state = "0";
     public string immigration_state = "0";
     public string orellian_relationship;
     public bool playerInteracting;

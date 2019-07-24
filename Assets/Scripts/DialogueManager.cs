@@ -71,6 +71,10 @@ public class DialogueManager : MonoBehaviour {
 		buttonText2.text = "Inspect";
 		buttonText3.text = "Status";
 		buttonText4.text = "Done";
+		button1.gameObject.SetActive (true);
+		button2.gameObject.SetActive (true);
+		button3.gameObject.SetActive (true);
+		button4.gameObject.SetActive (true);
 		controlPanel.gameObject.SetActive (true);
         inputPanel.gameObject.SetActive (false);
 		infoPanel.gameObject.SetActive (false);
@@ -208,10 +212,6 @@ public class DialogueManager : MonoBehaviour {
 		openMerchPanel();
 	}
 
-	public void setMerchResponse(string text = null) {
-		merchResponse.text = text;
-	}
-
 	public void setSell (string m1 = null, string m2 = null, string m3 = null, string m4 = null, string m5 = null, string m6 = null)
 	{
 		if (m1 != null) {
@@ -257,6 +257,10 @@ public class DialogueManager : MonoBehaviour {
 			merch6.gameObject.SetActive (false);
 		}
 		openMerchPanel();
+	}
+
+	public void setMerchResponse(string text = null) {
+		merchResponse.text = text;
 	}
 
 	public void SetReplies (string b1 = null, string b2 = null)

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,7 @@ public class Cargo : MonoBehaviour
 {
     protected bool isInteracting;
     protected bool isBuying;
+    protected bool isSelling;
     protected bool bought = false;
     protected bool sold = false;
 
@@ -26,12 +28,16 @@ public class Cargo : MonoBehaviour
                     if (isBuying) {
                         handleBuy();
                     }
+                    else if (isSelling) {
+                        handleSell();
+                    }
                     else {
-                        handleBuy();
+                        end();
                     }
                 }
                 else if (EventSystem.current.currentSelectedGameObject.name == "Talk") {
                     isBuying = true;
+                    FindObjectOfType<DialogueManager>().setMerchResponse(">");
                     FindObjectOfType<DialogueManager>().setBuy(
                         "titanium          30",
                         "exotic pets       48",
@@ -41,7 +47,9 @@ public class Cargo : MonoBehaviour
                         "DONE");
 				}
                 else if (EventSystem.current.currentSelectedGameObject.name == "Inspect") {
-                    FindObjectOfType<DialogueManager>().setSell();
+                    string[] cargo = GameControl.control.cargo;
+                    isSelling = true;
+                    FindObjectOfType<DialogueManager>().setSell(cargo[0], cargo[1], cargo[2], cargo[3], "DONE");
 				}
                 else {
                     end();
@@ -54,6 +62,8 @@ public class Cargo : MonoBehaviour
         Selectable choice = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
         string response = choice.GetComponentInChildren<Text>().text;
         if (response == "DONE") {
+            isSelling = false;
+            isBuying = false;
             end();
         }
         else {
@@ -61,6 +71,9 @@ public class Cargo : MonoBehaviour
             for (int i = 0; i < cargo.Length; i += 1) {
                 if (cargo[i] == "<empty>") {
                     GameControl.control.cargo[i] = response;
+                    string cost = response.Substring(response.Length - 2);
+                    int intCost = Convert.ToInt32(cost);
+                    GameControl.control.credits += -intCost;
                     bought = true;
                     break;
                 }
@@ -72,10 +85,42 @@ public class Cargo : MonoBehaviour
             else {
                 FindObjectOfType<DialogueManager>().setMerchResponse("> Cargo hold full");           
             }
-            
         }
- 
-        //FindObjectOfType<DialogueManager>().exit();
+    }
+
+    protected void handleSell() {
+        Selectable choice = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
+        string response = choice.GetComponentInChildren<Text>().text;
+        if (response == "DONE") {
+            isSelling = false;
+            isBuying = false;
+            end();
+        }
+        else if (response == "<empty>") {
+            FindObjectOfType<DialogueManager>().setMerchResponse("> Cargo pod empty");
+        }
+        else if (response.Contains("hybrid grain")) {
+            FindObjectOfType<DialogueManager>().setMerchResponse("> Sale of hybrid grain is prohibited per station quarantine");
+        }
+        else {
+            string[] cargo = GameControl.control.cargo;
+            for (int i = 0; i < cargo.Length; i += 1) {
+                if (cargo[i] == response) {
+                    GameControl.control.cargo[i] = "<empty>";
+                    string cost = response.Substring(response.Length - 2);
+                    int intCost = Convert.ToInt32(cost);
+                    GameControl.control.credits += intCost;
+                    sold = true;
+                    break;
+                }
+            }
+            if (sold) {
+                cargo = GameControl.control.cargo;
+                FindObjectOfType<DialogueManager>().setSell(cargo[0], cargo[1], cargo[2], cargo[3], "DONE");
+                FindObjectOfType<DialogueManager>().setMerchResponse("> I'll buy that");
+                sold = false;
+            }  
+        }
     }
 
     protected void end() {

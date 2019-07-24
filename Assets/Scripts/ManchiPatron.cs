@@ -11,7 +11,7 @@ public class ManchiPatron : NPC {
         int state = GameControl.control.patron_convo;
         FindObjectOfType<DialogueManager>().closeControlPanel();
         List<string> iList = new List<string>();
-        iList.Add("A Manchi...with an Imperium chevron ident! Most of the Imperium still consider Manchi too...emotionless...to be citizens. Or is the opposition something else?\n\nFear? And if fear...what kind of fear?");
+        iList.Add("A Manchi...with an Imperium chevron ident! Most of the Imperium still consider Manchi too... emotionless ... to be citizens. Or is the opposition something else?\n\nFear? And if fear...what kind of fear?");
         iList.Add("Manchi living this deep in the heart of the Far Arm.\n\nOf course, it's thirty years since the end of the Manchi wars. Still, who'd've imagined them on Hiathra Station...");
         iList.Add("The insectoid seems briefly to make eye contact before click-clicking away.");
         iList.Add("At your approach, the Manchi shuffles away, making those hideous clicking sounds.");

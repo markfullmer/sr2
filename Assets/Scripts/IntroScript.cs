@@ -93,7 +93,7 @@ public class IntroScript : MonoBehaviour
                 state = 7;
             }
             else if (state == 7) {
-                text2.text = "...save entropy.";
+                text2.text = "...in a universe of maniacal entropy...";
                 text2.enabled = true;
                 state = 8;
             }

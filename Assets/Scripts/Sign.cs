@@ -41,6 +41,9 @@ public class Sign : NPC {
         else if (name == "SignCabinet") {
             dialogue = "You try the drawers in this cabinet. One of them slides open, revealing a stash of vac-sealed candy bars. You help yourself to a caramel Red Dwarf bar.";
         }
+        else if (name == "SignMissiles") {
+            dialogue = "This must be where they keep saleable supplies for visiting ships.\n\nThere are enough SM-1 missiles here to destroy a space station...";
+        }
         FindObjectOfType<DialogueManager>().closeControlPanel();
         FindObjectOfType<DialogueManager>().SetDialogue(dialogue);
         StartCoroutine(actionWarmUp(0.6f));
